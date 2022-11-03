@@ -42,6 +42,7 @@ def createTables(_conn):
         #Notes: https://linuxhint.com/create-table-in-sqlite-using-if-not-exists-statement/
 
         _conn.execute(sql)
+        print("users created")
 
         sql = """
             CREATE TABLE IF NOT EXISTS User_Review (
@@ -52,8 +53,8 @@ def createTables(_conn):
             r_date CHAR(10) NOT NULL
             )
         """
-
         _conn.execute(sql)
+        print("user_review created")
 
         sql = """
             CREATE TABLE Picture (
@@ -65,8 +66,8 @@ def createTables(_conn):
             p_type CHAR(10) NOT NULL
             )
         """
-
         _conn.execute(sql)
+        print("picture created")
 
         sql = """
             CREATE TABLE IF NOT EXISTS Media_Watch_List (           
@@ -76,8 +77,8 @@ def createTables(_conn):
             w_completiondate CHAR(10) NOT NULL
             )
         """
-
         _conn.execute(sql)
+        print("media_watch_list created")
 
         sql = """
             CREATE TABLE Streaming_Availibility (            
@@ -86,23 +87,24 @@ def createTables(_conn):
             sa_hulu BOOLEAN NOT NULL CHECK (sa_hulu IN (0, 1)),
             sa_neflix BOOLEAN NOT NULL CHECK (sa_neflix IN (0, 1)),
             sa_primevid BOOLEAN NOT NULL CHECK (sa_primevid IN (0, 1)),
-            sa_disney+ BOOLEAN NOT NULL CHECK (sa_disney+ IN (0, 1)) 
+            sa_disneyplus BOOLEAN NOT NULL CHECK (sa_disneyplus IN (0, 1)) 
             )
         """
         #Notes: https://stackoverflow.com/questions/843780/store-boolean-value-in-sqlite
 
         _conn.execute(sql)
+        print("streaming_availibility created")
 
         sql = """
             CREATE TABLE Public_Ratings (            
             pr_id DECIMAL(5,0) NOT NULL,
             p_id DECIMAL(5,0) NOT NULL,
             pr_RTrating DECIMAL(3,0) NOT NULL,
-            pr_IMDbrating DECIMAL(2,1)) NOT NUL
+            pr_IMDbrating DECIMAL(2,1) NOT NULL
             )
         """
-
         _conn.execute(sql)
+        print("public_ratings created")
 
         sql = """
             CREATE TABLE Cast_Member (
@@ -110,8 +112,8 @@ def createTables(_conn):
             ca_name CHAR(60) NOT NULL
             )
         """
-
         _conn.execute(sql)
+        print("cast_member created")
 
         sql = """
             CREATE TABLE Media_Cast_Member (
@@ -121,6 +123,7 @@ def createTables(_conn):
             )
         """
         _conn.execute(sql)
+        print("media_cast_member created")
        
         _conn.commit()
         print("CreationTablesSuccess!") #commiting worked  
