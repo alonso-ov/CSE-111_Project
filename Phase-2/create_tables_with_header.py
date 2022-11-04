@@ -1,4 +1,4 @@
-import sqlite3
+mport sqlite3
 from sqlite3 import Error
 
 
@@ -30,15 +30,16 @@ def createTables(_conn):
     try:
         
         # DECIMAL(20,0) = 20 digits before decimal point and 0 digits after decimal point
-        sql = """CREATE TABLE IF NOT EXISTS Users (
-            u_id DECIMAL(10,0) NOT NULL, 
+        sql =  """
+            CREATE TABLE IF NOT EXISTS USER  (
+            u_id DECIMAL(10,0) NOT NULL,
             u_username CHAR(2) NOT NULL,
             u_email CHAR(40) NOT NULL,
             u_firstname CHAR(30) NOT NULL,
             u_lastname CHAR(30) NOT NULL,
             u_preferredstreamsite CHAR(15) NOT NULL
             )
-            """
+        """
         #Notes: https://linuxhint.com/create-table-in-sqlite-using-if-not-exists-statement/
 
         _conn.execute(sql)
@@ -46,7 +47,7 @@ def createTables(_conn):
 
         sql = """
             CREATE TABLE IF NOT EXISTS User_Review (
-            p_id DECIMAL(5,0) NOT NULL,
+            p_id STRING(8) NOT NULL,
             u_id DECIMAL(10,0) NOT NULL,
             r_comment CHAR(10000) NOT NULL,
             r_userrating DECIMAL(1,1) NOT NULL,
@@ -58,12 +59,12 @@ def createTables(_conn):
 
         sql = """
             CREATE TABLE Picture (
-            p_id DECIMAL(5,0) NOT NULL,
+            p_id STRING(8) NOT NULL,
             p_name DECIMAL(100,0) NOT NULL,
-            p_releasedate CHAR(10) NOT NULL,
-            p_agerating DECIMAL(2,0) NOT NULL,
-            p_genre CHAR(20) NOT NULL,
-            p_type CHAR(10) NOT NULL
+            p_releasedate CHAR(4) NOT NULL,
+            p_agerating CHAR(5) NOT NULL,
+            p_type CHAR(5) NOT NULL,
+            p_genre CHAR(100) NOT NULL
             )
         """
         _conn.execute(sql)
@@ -72,7 +73,7 @@ def createTables(_conn):
         sql = """
             CREATE TABLE IF NOT EXISTS Media_Watch_List (           
             u_id DECIMAL(10,0) NOT NULL,
-            p_id DECIMAL(5,0) NOT NULL,
+            p_id STRING(8) NOT NULL,
             w_watchstatus CHAR(20) NOT NULL,
             w_completiondate CHAR(10) NOT NULL
             )
@@ -83,11 +84,11 @@ def createTables(_conn):
         sql = """
             CREATE TABLE Streaming_Availibility (            
             sa_id DECIMAL(5,0) NOT NULL,
-            p_id DECIMAL(5,0) NOT NULL,
-            sa_hulu BOOLEAN NOT NULL CHECK (sa_hulu IN (0, 1)),
+            p_id STRING(8) NOT NULL,
             sa_neflix BOOLEAN NOT NULL CHECK (sa_neflix IN (0, 1)),
+            sa_hulu BOOLEAN NOT NULL CHECK (sa_hulu IN (0, 1)),
             sa_primevid BOOLEAN NOT NULL CHECK (sa_primevid IN (0, 1)),
-            sa_disneyplus BOOLEAN NOT NULL CHECK (sa_disneyplus IN (0, 1)) 
+            sa_disney+ BOOLEAN NOT NULL CHECK (sa_disneyplus IN (0, 1)) 
             )
         """
         #Notes: https://stackoverflow.com/questions/843780/store-boolean-value-in-sqlite
@@ -98,9 +99,9 @@ def createTables(_conn):
         sql = """
             CREATE TABLE Public_Ratings (            
             pr_id DECIMAL(5,0) NOT NULL,
-            p_id DECIMAL(5,0) NOT NULL,
-            pr_RTrating DECIMAL(3,0) NOT NULL,
-            pr_IMDbrating DECIMAL(2,1) NOT NULL
+            p_id STRING(8) NOT NULL,
+            pr_RTrating DECIMAL(2,1) NOT NULL,
+            pr_IMDbrating DECIMAL(2,3)) NOT NULL
             )
         """
         _conn.execute(sql)
@@ -108,8 +109,8 @@ def createTables(_conn):
 
         sql = """
             CREATE TABLE Cast_Member (
-            ca_castid DECIMAL(5,0) NOT NULL,
-            ca_name CHAR(60) NOT NULL
+            ca_id DECIMAL(8,0) NOT NULL,
+            ca_name CHAR(80) NOT NULL
             )
         """
         _conn.execute(sql)
@@ -117,9 +118,9 @@ def createTables(_conn):
 
         sql = """
             CREATE TABLE Media_Cast_Member (
-            p_id DECIMAL(5,0) NOT NULL,
-            ca_castid DECIMAL(5,0) NOT NULL,
-            mc_role CHAR(40) NOT NULL
+            p_id STRING(8) NOT NULL,
+            ca_id DECIMAL(8,0) NOT NULL,
+            mc_role CHAR(8) NOT NULL
             )
         """
         _conn.execute(sql)
