@@ -4,7 +4,7 @@ import os
 
 # Creates a relative path 
 relativeDir = os.path.dirname(__file__)
-databasePath = os.path.join(relativeDir, 'db.sqlite3')
+databasePath = os.path.join(relativeDir, 'test.sqlite3')
 
 def createConnection(path):
     conn = None
