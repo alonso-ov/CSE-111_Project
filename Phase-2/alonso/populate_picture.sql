@@ -1,5 +1,5 @@
 .mode "csv"
-.separator "|"
+.separator ","
 .headers off
 
-.import "../" customer
+.import "C:\\Users\\alons\\Desktop\\printf\\CSE-111_Project\\Phase-2\\alonso\\copies\\picture.csv" Picture

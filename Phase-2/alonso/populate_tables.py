@@ -1,6 +1,6 @@
 import sqlite3
 from sqlite3 import Error
-
+from pathlib import Path
 
 def openConnection(_dbFile):
     print("------ Opening database: ", _dbFile, ' ------')
@@ -26,11 +26,19 @@ def closeConnection(_conn, _dbFile):
 def populate(_conn):
     print("------ Populating Tables ------")
 
+
+
     try:
         sql = """
-            .mode "csv"
-            .seperator ","
+        .mode "csv"
+        .separator ","
+        .headers off
+
+        .import "C:\\Users\\alons\\Desktop\\printf\\CSE-111_Project\\Phase-2\\alonso\\copies\\picture.csv" Picture
         """
+
+        print(sql)
+
         _conn.execute(sql)
         print('Picture populated')
         
