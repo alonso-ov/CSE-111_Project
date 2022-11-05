@@ -169,9 +169,6 @@ def dropTables(_conn):
         _conn.rollback()
         print(e) 
 
-def populatePicture(_conn):
-    pass
-
 
 def main():
     database = r"test.sqlite3"
@@ -181,7 +178,6 @@ def main():
     with conn:
         dropTables(conn)
         createTables(conn)
-        populatePicture(conn)
 
     closeConnection(conn, database)
 
