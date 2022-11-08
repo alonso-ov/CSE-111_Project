@@ -1,4 +1,4 @@
-pr_id,p_id,pr_imdb,pr_tmdb
+pr_ratingid,pr_pictureid,pr_RTrating,pr_IMDbrating
 0,ts300399,,
 1,tm84618,8.2,8.179
 2,tm154986,7.7,7.3

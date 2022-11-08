@@ -1,4 +1,4 @@
-p_id,p_name,p_type,p_releasedate,p_agerating,p_genre
+p_pictureid,p_name,p_type,p_releasedate,p_agerating,p_genre
 ts300399,Five Came Back: The Reference Films,SHOW,1945,TV-MA,documentation
 tm84618,Taxi Driver,MOVIE,1976,R,"drama, crime"
 tm154986,Deliverance,MOVIE,1972,R,"drama, action, thriller, european"
