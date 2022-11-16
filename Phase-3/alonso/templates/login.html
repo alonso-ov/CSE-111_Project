@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Picture Catalog</title>
+        <meta name="description" content="">
+        <link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
+        <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    </head>
+    <body>
+        
+        <div class="card-holder">
+            <div class="card">
+                <form>
+                    <h3>Login as a user</h3>
+
+                    <!-- Username input -->
+                    <label for="username"><b>Username</b></label>
+                    <br>
+                    <input id="username" type="text" placeholder="Enter Username" required>
+                    <br>
+                    <br>
+
+                    <!-- Password input-->
+                    <label for="password"><b>Password</b></label>
+                    <br>
+                    <input id="password" type="password" placeholder="Enter Password" required>
+                    <br>
+                    <br>
+                    <input type="button" onclick="login()" value="Login">
+
+                </form>
+            </div>
+
+            <div class="card">
+                <h3>Or browse as a guest</h3>
+                <input type="button" value="Browse" onclick="browse()">
+            </div>
+        </div>
+
+        {% block content %}
+            <div class="flash-holder">
+                {% with messages = get_flashed_messages() %}
+
+                    {% if messages %}
+
+                    <ul class="flashes">
+                        {% for message in messages %}
+                            <li> {{ message }}</li>
+                        {% endfor %}
+                    </ul>
+
+                    {% endif %}
+
+                {% endwith %}
+            </div>
+        {% endblock %}
+    </body>
+    <script src="{{ url_for('static',filename='login.js') }}" async defer></script>
+</html>

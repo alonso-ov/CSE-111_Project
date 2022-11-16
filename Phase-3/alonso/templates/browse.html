@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Browse</title>
+        <meta name="description" content="">
+        <link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
+        <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    </head>
+    <body>
+        
+        <div class="card-holder">
+            <label>Search by:</label>
+            <select>
+                <option value="no_filter">No Filter</option>
+                <option value="streaming_platform">Streaming Platform</option>
+            </select>
+            <input id="search-value" type="search" placeholder="input filters here">
+            <input id="search-button" type="button" value="Search" onclick="search()">
+            <br>
+
+            <table>
+                <th>Name</th>
+                <th>Age Rating</th>
+                <th>Genre(s)</th>
+                <th>Picture Type</th>
+                <th>Release Date</th>
+            </table>
+           
+        </div>
+
+    </body>
+    <script src="{{ url_for('static',filename='browse.js') }}" async defer></script>
+</html>
