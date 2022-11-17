@@ -47,8 +47,8 @@ def createTables(_conn):
             CREATE TABLE User  (
             u_userid INTEGER NOT NULL,
             u_email VARCHAR NOT NULL,
-            u_password VARCHAR NOT NULL,
             u_username VARCHAR NOT NULL,
+            u_password VARCHAR NOT NULL,
             u_firstname VARCHAR NOT NULL,
             u_lastname VARCHAR NOT NULL,
             u_preferredstreamsite CHAR(15) NOT NULL
@@ -60,6 +60,7 @@ def createTables(_conn):
 
         sql = """
             CREATE TABLE User_Review (
+            ur_reviewid INTEGER NOT NULL,
             ur_pictureid STRING(8) NOT NULL,
             ur_userid INTEGER NOT NULL,
             ur_comment CHAR(10000) NOT NULL,

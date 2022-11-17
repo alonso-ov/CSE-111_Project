@@ -17,6 +17,7 @@
             </select>
             <input id="search-value" type="search" placeholder="input filters here">
             <input id="search-button" type="button" value="Search" onclick="search()">
+            <input id="rest" type="reset" onclick="reset_table()">
             <br>
 
             <table>
@@ -24,7 +25,8 @@
                 <th>Age Rating</th>
                 <th>Genre(s)</th>
                 <th>Picture Type</th>
-                <th>Release Date</th>
+                <th id="last-header">Release Date</th>
+
             </table>
            
         </div>

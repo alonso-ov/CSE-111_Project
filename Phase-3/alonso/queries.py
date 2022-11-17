@@ -67,7 +67,7 @@ def search_by_no_filter():
 
         cur.execute(sql)
 
-        return cur.fetchall()[:100]
+        return cur.fetchall()[0:100]
 
     except Error as e:
         print(e)
@@ -78,7 +78,7 @@ def search_by_no_filter():
         print(exc_type, fname, exc_tb.tb_lineno)
 
 
-def search_by_streaming_site(streamingsite):
+def search_by_streaming_site(streaming_site):
 
     conn = open_connection(r'test.sqlite3')
     try:
@@ -87,7 +87,7 @@ def search_by_streaming_site(streamingsite):
             from Picture
             where u_username = '{}'
             and u_password = '{}'
-        """.format(streamingsite)
+        """.format(streaming_site)
 
         pass
 

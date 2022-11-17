@@ -1,8 +1,9 @@
 import sqlite3
 from sqlite3 import Error
-from flask import Flask, redirect, url_for, request, abort, render_template, flash, make_response
+from flask import Flask, redirect, url_for, request, abort, render_template, flash, make_response, jsonify
 from handle_db import *
 from queries import *
+
 
 app = Flask(__name__)
 
@@ -37,10 +38,14 @@ def browse():
     return render_template('browse.html')
 
 @app.route('/search_by/<string:method>', methods=['GET'])
-def no_filter(method):
+def search_by(method):
     if(method == 'no_filter'):
         query = search_by_no_filter()
-        print(query)
+        data = jsonify({'pictures': query})
+        response = make_response(data, 200)
+        return response
+
+    return make_response(200)
 
 if __name__ == '__main__':
     app.run(debug=True)

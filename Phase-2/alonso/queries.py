@@ -1,5 +1,6 @@
 import sqlite3
 from sqlite3 import Error
+import sys, os
 
 '''
 1. create a user
@@ -45,7 +46,7 @@ def closeConnection(_conn, _dbFile):
     except Error as e:
         print(e)
 
-def createUser(_conn, u_username, u_email, u_firstname, u_lastname, u_referredstreamsite):
+def createUser(_conn, u_email, u_username, u_password, u_firstname, u_lastname, u_referredstreamsite):
     try:
 
         sql = """
@@ -60,9 +61,9 @@ def createUser(_conn, u_username, u_email, u_firstname, u_lastname, u_referredst
 
         new_u_id = User_len
 
-        new_user = [(new_u_id, u_username, u_email, u_firstname, u_lastname, u_referredstreamsite)]
+        new_user = [(new_u_id, u_email, u_username, u_password, u_firstname, u_lastname, u_referredstreamsite)]
 
-        sql = "INSERT INTO User VALUES(?, ?, ?, ?, ?, ?)"
+        sql = "INSERT INTO User VALUES(?, ?, ?, ?, ?, ?, ?)"
 
         _conn.executemany(sql,  new_user)   
         _conn.commit()
@@ -71,20 +72,34 @@ def createUser(_conn, u_username, u_email, u_firstname, u_lastname, u_referredst
         _conn.rollback()
         print(e) 
 
-def editUser(_conn, u_username, u_email, u_firstname, u_lastname, u_referredstreamsite):
+def editUser(_conn, u_userid, u_email, u_username, u_password, u_firstname, u_lastname, u_peferredstreamsite):
     
     try:
-        pass
+        sql = """
+        UPDATE User
+        SET u_email={}, u_username={}, u_password={}, u_firstname={}, u_lastname, u_preferredstreamite={},
+        where u_userid = {}
+        """.format(u_email, u_username, u_password, u_firstname, u_lastname, u_peferredstreamsite, u_userid)
+
+        _conn.execute(sql)
+        _conn.commit()
+
     except Error as e:
-        _conn.rollback()
         print(e)
+
+        # more info about error
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+
+        _conn.rollback()
 
 def deleteUser(_conn, u_id):
     
     try:
         sql = """
             delete from user
-            where u_id = {}
+            where u_userid = {}
         """.format(u_id)
 
         _conn.execute(sql)
@@ -123,7 +138,7 @@ def deletePersonalRating(_conn, r_id):
     try:
         sql = """
             delete from User_Review
-            where r_id = {}
+            where ur_reviewid = {}
         """.format(r_id)
 
         _conn.execute(sql)
@@ -140,24 +155,18 @@ def main():
     conn = openConnection(database)
 
     #create dummy user
-    #createUser(conn, 'alonso123', '123', 'alonso@email.com', 'alonso', 'ortiz', 'netflix')
+    #createUser(conn, 'alonso@email.com', 'alonso123', '123', 'alonso', 'ortiz', 'netflix')
     #deleteUser(conn, 5)
-    editUser(conn)
+    editUser(conn, 0, 'alonso1234', '1234', 'alonso@email.com', 'alonsoo', 'ortizz', 'hulu')
 
     #add dummy rating
     #addPersonalRating(conn, 'tm204541', 1, 'mid movie', 5, '2022-11-06')
     #deletePersonalRating(conn, 2)
 
 
+
+
     closeConnection(conn, database)
 
 if __name__ == '__main__':
     main()
-
-#   cursor is only used when retrieving info
-
-    # try:
-    #     pass
-    # except Error as e:
-    #     _conn.rollback()
-    #     print(e)
