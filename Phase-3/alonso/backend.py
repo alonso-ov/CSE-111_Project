@@ -47,5 +47,10 @@ def search_by(method):
 
     return make_response(200)
 
+@app.route('/more_info_picture/<string:picture_id>', methods=['GET'])
+def search_by_picture(picture_id):
+    print(picture_id)
+    return render_template('picture.html')
+
 if __name__ == '__main__':
     app.run(debug=True)

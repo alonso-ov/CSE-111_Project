@@ -59,7 +59,7 @@ def search_by_no_filter():
     conn = open_connection(r'test.sqlite3')
     try:
         sql = """
-            select p_name, p_agerating, p_genre, p_type, p_releasedate
+            select p_pictureid, p_name, p_agerating, p_genre, p_type, p_releasedate
             from Picture
         """
 
