@@ -2,19 +2,121 @@
 
 <html>
     <head>
-        <title>title of picture</title>
+        <title>{{ title }}</title>
+
         <meta name="description" content="">
+        <meta charset="UTF-8">
+
         <link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
+
         <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     </head>
     <body>
         
         <div class="card-holder">
+            
+            <h3>{{ title }}</h3>
 
-            <div 
+            <div class="tabs">
+                <input class="tablinks" type="button" value="Streaming Availability" onclick="change_tab('SA')">
+                <input class="tablinks" type="button" value="Public Ratings"         onclick="change_tab('PR')">
+                <input class="tablinks" type="button" value="User Reviews"           onclick="change_tab('UR')">
+                <input class="tablinks" type="button" value="Cast Members"           onclick="change_tab('CM')">
+            </div>
+
+            <br>
+
+            <!-- Streaming Availability tab content-->
+            <div class="tab-content" id="SA">
+                <table>
+                    <th>Netflix</th>
+                    <th>Hulu</th>
+                    <th>Prime Video</th>
+                    <th>Disney+</th>
+
+                    {% block StreamingAvailability %}
+                        <tr>
+                            {% for site in streaming_sites %}
+                                {% if site == 1 %}
+                                    <td>&#x2705;</td>
+                                {% else %}
+                                    <td>&#x274E;</td>
+                                {% endif %}
+                            {% endfor %}
+                        </tr>
+                    {% endblock %}
+                </table>
+            </div>
+
+            <!-- Public Ratings tab content-->
+            <div class="tab-content" id="PR" hidden>
+                <table>
+                    <th>Rotten Tomatoes</th>
+                    <th>IMDb</th>
+
+                    <tr>
+                        {% if RTrating == '' %}
+                            <td>Not available</td>
+                        {% else %}
+                            <td>{{ RTrating }}</td>
+                        {% endif %}
+
+                        {% if IMDbrating == '' %}
+                            <td>Not available</td>
+                        {% else %}
+                            <td>{{ IMDbrating }}</td>
+                        {% endif %}
+                    </tr>
+                </table>
+            </div>
+
+            <!-- User Reviews tab content-->
+            <div class="tab-content" id="UR" hidden>
+                <table>
+                    <th> Username </th>
+                    <th> Comment </th>
+                    <th> Rating </th>
+                    <th> Date </th>
+
+                    {% block UserReview %}
+
+                        {% for review in user_reviews %}
+                        <tr>
+                            <td>{{ review[0] }}</td>
+                            <td>{{ review[1] }}</td>
+                            <td>{{ review[2] }}</td>
+                            <td>{{ review[3] }}</td>
+                        </tr>
+                        {% endfor %}
+
+                    {% endblock %}
+                </table>
+            </div>
+
+            <!-- Cast Member tab content-->
+            <div class="tab-content" id="CM" hidden>
+                <table>
+                    <th>Role</th>
+                    <th>Actor Name</th>
+
+                    {% block MediaCastMembers%}
+
+                        {% for member in cast_members %}
+                            <tr>
+                                <td>{{member[0]}}</td>
+                                <td>{{member[1]}}</td>
+                            </tr>
+                        {% endfor %}
+
+                    {% endblock%}
+                </table>
+
+
+            </div>
            
         </div>
 
     </body>
-    <script src="{{ url_for('static',filename='browse.js') }}" async defer></script>
+
+    <script src="{{ url_for('static',filename='picture.js') }}" async defer></script>
 </html>

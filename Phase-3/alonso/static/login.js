@@ -1,5 +1,10 @@
+
+/*
+    gather user input and send request to validate credentials
+*/
 function login() {
 
+    // get user input
     username = $('#username').val()
     password =  $('#password').val()
 
@@ -8,11 +13,14 @@ function login() {
     if (username == '' || password == '') {
         console.log('input fields not filled')
     } else {
+
+        // package user input into json format
         const loginInput = {
             u_username: username,
             u_password: password
         }
 
+        // make http request
         fetch('http://127.0.0.1:5000/login', {
             method: 'POST',
             headers: {
@@ -32,6 +40,9 @@ function login() {
     }
 }
 
+/*
+    redirect to non-user browse dashboard
+*/
 function browse(){
 
     window.location.href = 'http://127.0.0.1:5000/browse'
