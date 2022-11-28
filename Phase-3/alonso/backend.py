@@ -39,8 +39,13 @@ def browse():
 # Filter results by method
 @app.route('/search_by/<string:method>', methods=['GET', 'POST'])
 def search_by(method):
+    user_input = [request.json['user_input']]
+    user_input += request.json['user_input'].split(' ')
+    
 
-    if(method == 'no_filter'):
+    print(user_input)
+
+    if method == 'no_filter':
 
         query = search_by_no_filter() # method defined in queries.py
 
@@ -48,7 +53,7 @@ def search_by(method):
         response = make_response(data, 200)
         return response
 
-    elif(method == 'release_year'):
+    elif method == 'release_year':
         user_input = request.json['user_input'].split(' ')
 
         query = []
@@ -56,9 +61,31 @@ def search_by(method):
         for item in user_input:
             query += search_by_release_year(item)
         
-        data = jsonify({'pictures': query}) # package query into a json format
+        data = jsonify({'pictures': query})
         response = make_response(data, 200)
         return response
+
+    elif method == 'picture_name':
+        query = []
+
+        for item in user_input:
+            query += search_by_picture_name(item)
+             
+        data = jsonify({'pictures': query})
+        response = make_response(data, 200)
+        return response
+
+    elif method == 'cast_member_name':
+        
+        query = []
+
+        for item in user_input:
+            query += search_by_cast_member_name(item)
+             
+        data = jsonify({'pictures': query})
+        response = make_response(data, 200)
+        return response
+
 
     return make_response()
 

@@ -10,23 +10,23 @@ import os
 '''
 
 def open_connection(_dbFile):
-    print("Opening database: ", _dbFile)
+    #print("Opening database: ", _dbFile)
 
     conn = None
     try:
         conn = sqlite3.connect(_dbFile)
-        print("Connection opened...")
+        #print("Connection opened...")
     except Error as e:
         print(e)
 
     return conn
 
 def close_connection(_conn, _dbFile):
-    print("Closing database: ", _dbFile)
+    #print("Closing database: ", _dbFile)
 
     try:
         _conn.close()
-        print("Connection closed...")
+        #print("Connection closed...")
     except Error as e:
         print(e)
 
@@ -497,7 +497,79 @@ def search_by_release_year(user_input):
         sql = """
             select p_pictureid, p_name, p_agerating, p_genre, p_type, p_releasedate
             from Picture
-            where p_releasedate = '{}'
+            where p_releasedate like '%{}%'
+            limit 100
+        """.format(user_input)
+
+        cur = conn.cursor()
+
+        cur.execute(sql)
+
+        return cur.fetchall()
+
+    except Error as e:
+        print(e)
+
+        # more info about error
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+
+        conn.rollback()
+
+    close_connection(conn, r'test.sqlite3')
+
+'''
+    :param1: user input
+    :return: all movies with similar name as specified in user input
+'''
+def search_by_picture_name(user_input):
+
+    conn = open_connection(r'test.sqlite3')
+
+    try:
+        sql = """
+            select p_pictureid, p_name, p_agerating, p_genre, p_type, p_releasedate
+            from Picture
+            where p_name like '%{}%'
+            limit 50
+        """.format(user_input)
+
+        cur = conn.cursor()
+
+        cur.execute(sql)
+
+        return cur.fetchall()
+
+    except Error as e:
+        print(e)
+
+        # more info about error
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+
+        conn.rollback()
+
+    close_connection(conn, r'test.sqlite3')
+
+'''
+    :param1: user input
+    :return: all movies with specified cast member name
+'''
+def search_by_cast_member_name(user_input):
+
+    conn = open_connection(r'test.sqlite3')
+
+    try:
+        sql = """
+            select p_pictureid, p_name, p_agerating, p_genre, p_type, p_releasedate
+            from Picture, Media_Cast_Member, Cast_Member
+            where p_pictureid = mcm_pictureid
+                and mcm_personid = cm_personid
+                and cm_name like '%{}%'
+            group by p_pictureid
+            limit 50
         """.format(user_input)
 
         cur = conn.cursor()
