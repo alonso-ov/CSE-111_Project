@@ -48,11 +48,19 @@ def search_by(method):
         response = make_response(data, 200)
         return response
 
-    elif(method == 'streaming_platform'):
-        print(request.json['user_input'])
-        return 
+    elif(method == 'release_year'):
+        user_input = request.json['user_input'].split(' ')
 
-    return make_response(200)
+        query = []
+        
+        for item in user_input:
+            query += search_by_release_year(item)
+        
+        data = jsonify({'pictures': query}) # package query into a json format
+        response = make_response(data, 200)
+        return response
+
+    return make_response()
 
 # Load additional information about movie
 @app.route('/more_info_picture/<string:picture_id>', methods=['GET'])

@@ -1,4 +1,14 @@
 /*
+    TODO: Finish reseting table
+*/
+function reset_table(){
+    console.log('reseting..')
+    //TODO reset table when button is pressed
+
+    $('.picture-row').remove()
+}
+
+/*
     handle search functionality
 */
 function search(){
@@ -20,10 +30,13 @@ function search(){
         })
         .then(response => response.json())
         .then((body) =>{
+
+            reset_table()
+
             pictures = body['pictures']
 
             pictures.forEach((item) => {
-                markup = `<tr>
+                markup = `<tr class="picture-row">
                     <td class="picture-link" id="${item[0]}">${item[1]}</td>
                     <td>${item[2]}</td>
                     <td>${item[3]}</td>
@@ -36,14 +49,6 @@ function search(){
 
             create_picture_links()
         })
-}
-
-/*
-    TODO: Finish reseting table
-*/
-function reset_table(){
-    console.log('reseting..')
-    //TODO reset table when button is pressed
 }
 
 /*

@@ -292,3 +292,228 @@ def get_media_cast_members(picture_id):
         conn.rollback()
 
     close_connection(conn, r'test.sqlite3')
+
+
+'''
+    Get everything from every picture
+
+    :return: all available data from every picture
+'''
+def search_by_no_filter():
+    conn = open_connection(r'test.sqlite3')
+    try:
+        sql = """
+            select p_pictureid, p_name, p_agerating, p_genre, p_type, p_releasedate
+            from Picture
+        """
+
+        cur = conn.cursor()
+
+        cur.execute(sql)
+
+        return cur.fetchall()[0:100]
+
+    except Error as e:
+        print(e)
+
+        # more info about error
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+
+'''
+    TODO: finish
+'''
+def search_by_streaming_site(streaming_sites):
+
+    conn = open_connection(r'test.sqlite3')
+
+
+    try:
+        sql = """
+            select *
+            from Picture
+            where u_username = '{}'
+            and u_password = '{}'
+        """.format(streaming_site)
+
+        pass
+
+    except Error as e:
+        print(e)
+
+        # more info about error
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+
+        conn.rollback()
+
+    close_connection(conn, r'test.sqlite3')
+
+'''
+    :param1: picture identifier
+    :return: all columns related to that specified picture
+'''
+def get_picture_info(picture_id):
+
+    conn = open_connection(r'test.sqlite3')
+
+
+    try:
+        sql = """
+            select *
+            from Picture
+            where p_pictureid = '{}'
+        """.format(picture_id)
+
+        cur = conn.cursor()
+
+        cur.execute(sql)
+
+        return cur.fetchone()
+
+    except Error as e:
+        print(e)
+
+        # more info about error
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+
+        conn.rollback()
+
+    close_connection(conn, r'test.sqlite3')
+
+'''
+    :param1: picture identifier
+    :return: all available streaming platforms
+'''
+def get_streaming_availability(picture_id):
+
+    conn = open_connection(r'test.sqlite3')
+
+    try:
+        sql = """
+            select sa_netflix, sa_hulu, sa_primevid, sa_disneyplus
+            from Streaming_Availability
+            where sa_pictureid = '{}'
+        """.format(picture_id)
+
+        cur = conn.cursor()
+
+        cur.execute(sql)
+
+        return cur.fetchone()
+
+    except Error as e:
+        print(e)
+
+        # more info about error
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+
+        conn.rollback()
+
+    close_connection(conn, r'test.sqlite3')
+
+'''
+    :param1: picture identifier
+    :return: all public ratings
+'''
+def get_public_ratings(picture_id):
+
+    conn = open_connection(r'test.sqlite3')
+
+    try:
+        sql = """
+            select pr_RTrating, pr_IMDbrating
+            from Public_Ratings
+            where pr_pictureid = '{}'
+        """.format(picture_id)
+
+        cur = conn.cursor()
+
+        cur.execute(sql)
+
+        return cur.fetchone()
+
+    except Error as e:
+        print(e)
+
+        # more info about error
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+
+        conn.rollback()
+
+    close_connection(conn, r'test.sqlite3')
+
+'''
+    :param1: picture identifier
+    :return: all user reviews
+'''
+def get_user_reviews(picture_id):
+
+    conn = open_connection(r'test.sqlite3')
+
+    try:
+        sql = """
+            select u_username, ur_comment, ur_userrating, ur_date
+            from User_Review, User
+            where ur_pictureid == '{}'
+                and ur_userid = u_userid
+        """.format(picture_id)
+
+        cur = conn.cursor()
+
+        cur.execute(sql)
+
+        return cur.fetchall()
+
+    except Error as e:
+        print(e)
+
+        # more info about error
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+
+        conn.rollback()
+
+    close_connection(conn, r'test.sqlite3')
+
+'''
+    :param1: user input
+    :return: all movies with specified release year
+'''
+def search_by_release_year(user_input):
+
+    conn = open_connection(r'test.sqlite3')
+
+    try:
+        sql = """
+            select p_pictureid, p_name, p_agerating, p_genre, p_type, p_releasedate
+            from Picture
+            where p_releasedate = '{}'
+        """.format(user_input)
+
+        cur = conn.cursor()
+
+        cur.execute(sql)
+
+        return cur.fetchall()
+
+    except Error as e:
+        print(e)
+
+        # more info about error
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+
+        conn.rollback()
+
+    close_connection(conn, r'test.sqlite3')
