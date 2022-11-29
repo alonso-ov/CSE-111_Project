@@ -15,6 +15,7 @@ def login_page():
 def login():
     
     if request.method == 'POST':
+        global user
         user = get_user_info(request.json['u_username'], request.json['u_password'])
 
         if(user == None):
@@ -29,7 +30,13 @@ def login():
 # Render user dashboard
 @app.route('/user_dashboard', methods=['GET', 'POST'])
 def user_dashboard():
-    return render_template('user_dashboard.html')
+    print(user)
+    name = user[4] + ' ' + user[5]
+
+    watchlist = get_media_watchlist(user[0]);
+    print(watchlist)
+
+    return render_template('user_dashboard.html', name=name, watchlist=watchlist)
 
 # Render non-user dashboard
 @app.route('/browse', methods=['GET', 'POST'])
