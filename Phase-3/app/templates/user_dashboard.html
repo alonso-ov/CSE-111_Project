@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
         <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     </head>
-    <body>
+    <body onload="create_picture_links()">
         
         <div class="card-holder">
            <p>Welcome {{ name }}</p>
@@ -41,10 +41,42 @@
 
             <!-- Browse as a user -->
             <div class="tab-content" id="BR" hidden>
-                <p>browse here</p>
+                <br>
+                <div class="browse-content">
+                    <label>Search by:</label>
+
+                    <!-- Filters to search by-->
+                    <select>
+                        <option value="no_filter">No Filter</option>
+                        <option value="release_year">Release Date</option>
+                        <option value="picture_name">Picture Name</option>
+                        <option value="cast_member_name">Cast Member Name</option>
+                    </select>
+
+                    <!-- User search input -->
+                    <input id="search-value" type="search" placeholder="input filters here">
+
+                    <!-- Search button -->
+                    <input id="search-button" type="button" value="Search" onclick="search()">
+
+                    <!-- Reset table -->
+                    <input id="rest" type="reset" onclick="reset_table()">
+                </div>
+                <br>
+
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <th>Age Rating</th>
+                        <th>Genre(s)</th>
+                        <th>Picture Type</th>
+                        <th>Release Date</th>
+                    </tr>
+                </table>
             </div>
         </div>
 
     </body>
     <script src="{{ url_for('static',filename='picture.js') }}" async defer></script>
+    <script src="{{ url_for('static',filename='browse.js') }}" async defer></script>
 </html>

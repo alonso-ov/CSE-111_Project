@@ -6,6 +6,7 @@ function reset_table(){
     //TODO reset table when button is pressed
 
     $('.picture-row').remove()
+    $('#search-value').val('')
 }
 
 /*

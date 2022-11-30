@@ -200,3 +200,25 @@ a{
 .tab-content {
     text-align: center;
 }
+
+.browse-content {
+    text-align: left;
+}
+
+#addButton {
+    display: block;
+    margin-left: auto;
+    margin-right: 0;
+    border-radius: 30px;
+    background-color: lightgreen;
+
+}
+
+#addButton:active {
+    display: block;
+    margin-left: auto;
+    margin-right: 0;
+    border-radius: 30px;
+    background-color: whitesmoke;
+    
+}

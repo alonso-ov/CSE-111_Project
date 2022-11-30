@@ -604,6 +604,7 @@ def get_media_watchlist(user_id):
             from picture, media_watchlist
             where p_pictureid = mwl_pictureid
                 and mwl_userid = {}
+            order by mwl_id desc
         """.format(user_id)
 
         cur = conn.cursor()

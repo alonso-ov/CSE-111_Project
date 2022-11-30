@@ -122,10 +122,22 @@ def search_by_picture(picture_id):
 
     cast_members = get_media_cast_members(picture_id)
 
+    notInWatchlist = False
+
+    # check if user variable exists
+    if 'user' in globals():
+        watchlist = get_media_watchlist(user[0]);
+
+        watchlist_pictures_id = [i[0] for i in watchlist]
+
+        if not picture_id in watchlist_pictures_id:
+            notInWatchlist = True
+        
+
     return render_template('picture.html',  \
         title=title, release_year=release_year, age_rating=age_rating, genres=genres, \
         streaming_sites=streaming_sites, RTrating=RTrating, IMDbrating=IMDbrating,    \
-        user_reviews=user_reviews, cast_members=cast_members)
+        user_reviews=user_reviews, cast_members=cast_members, notInWatchlist=notInWatchlist)
 
 if __name__ == '__main__':
     app.run(debug=True)

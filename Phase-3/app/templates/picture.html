@@ -17,6 +17,12 @@
             
             <h3>{{ title }}</h3>
 
+            {% block addToWatchlistBtn %}
+                {% if notInWatchlist == True %}
+                    <input id="addButton" type="button" value="Add to Watchlist">
+                {%endif%}
+            {% endblock %}
+
             <div class="tabs">
                 <input class="tablinks" type="button" value="Streaming Availability" onclick="change_tab('SA')">
                 <input class="tablinks" type="button" value="Public Ratings"         onclick="change_tab('PR')">
