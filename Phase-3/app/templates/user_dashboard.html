@@ -24,6 +24,7 @@
                         <th>Picture Name</th>
                         <th>Watch Status</th>
                         <th>Completion Date</th>
+                        <th>Change</th>
                     </tr>
 
                     {% block  Media_Watchlist %}
@@ -32,6 +33,7 @@
                                 <td class="picture-link" id="{{ picture[0] }}">{{ picture[1] }}</td>
                                 <td>{{ picture[2] }}</td>
                                 <td>{{ picture[3] }}</td>
+                                <td><input type="button" value="Edit" onclick="editWatchlistPicture(`{{ picture[0]}}`)"></td>
                             </tr>
                         {% endfor %}
                     {% endblock %}
@@ -76,7 +78,26 @@
             </div>
         </div>
 
+        <div id="edit-form" hidden>
+            <form action="/">
+                <label for="watchstatus">Watch Status:</label><br>
+                <select name="watchstatus">
+                    <option>Haven't Started</option>
+                    <option>In Progress</option>
+                    <option>Finished</option>
+                </select>
+                <br>
+                <label for="completitiondate">Completition Date:</label>
+                <br>
+                <input name="completitiondate" type="date">
+                <br>
+                <input type="button" value="Go Back" onclick="exitForm()">
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+
     </body>
     <script src="{{ url_for('static',filename='picture.js') }}" async defer></script>
     <script src="{{ url_for('static',filename='browse.js') }}" async defer></script>
+    <script src="{{ url_for('static',filename='dashboard.js') }}" async defer></script>
 </html>

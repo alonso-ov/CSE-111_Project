@@ -38,7 +38,6 @@ function removeFromWatchlist(picture_id){
             if (response.status = 200) {
                 //change watchlist button
                 $('#removeButton').val('Removed ✓').prop('disabled', true)
-
             }
         })
 }

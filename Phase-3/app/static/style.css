@@ -219,3 +219,24 @@ a{
 #removeButton {
     background-color: tomato;
 }
+
+#edit-form {
+    border:5px solid #666;
+    padding-top:10%;
+    position: absolute;
+    top:0;
+    left:0;
+    width: 100%;
+    height:100%;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+form {
+    text-align: center;
+    background-color: whitesmoke;
+    border-radius: 1.5rem;
+    border-width: 20px;
+    width:20%;
+    margin-left: 40%;
+    padding: 15px 0 15px 0;
+}
