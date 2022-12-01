@@ -21,7 +21,23 @@ function addToWatchlist(picture_id){
         .then((response) => {
             if (response.status = 201) {
                 //change watchlist button
-                $('#addButton').val('Added to Watchlist ✓').css({"color": "white", "background-color": "lightseagreen"}).prop('disabled', true)
+                $('#addButton').val('Added ✓').css({"color": "white", "background-color": "lightseagreen"}).prop('disabled', true)
+
+            }
+        })
+}
+
+function removeFromWatchlist(picture_id){
+    fetch(`http://127.0.0.1:5000/removeFromWatchlist/${picture_id}`, {
+        method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+        .then((response) => {
+            if (response.status = 200) {
+                //change watchlist button
+                $('#removeButton').val('Removed ✓').prop('disabled', true)
 
             }
         })

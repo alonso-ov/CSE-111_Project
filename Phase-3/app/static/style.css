@@ -205,20 +205,17 @@ a{
     text-align: left;
 }
 
-#addButton {
+.watchlistButton {
     display: block;
     margin-left: auto;
     margin-right: 0;
     border-radius: 30px;
-    background-color: lightgreen;
-
 }
 
-#addButton:active {
-    display: block;
-    margin-left: auto;
-    margin-right: 0;
-    border-radius: 30px;
-    background-color: whitesmokeb;
-    
+#addButton {
+    background-color: lightgreen;
+}
+
+#removeButton {
+    background-color: tomato;
 }

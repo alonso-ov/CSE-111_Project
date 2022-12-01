@@ -123,9 +123,12 @@ def search_by_picture(picture_id):
     cast_members = get_media_cast_members(picture_id)
 
     notInWatchlist = False
+    hasLoggedIn = False
 
     # check if user variable exists
     if 'user' in globals():
+        hasLoggedIn = True
+
         watchlist = get_media_watchlist(user[0]);
 
         watchlist_pictures_id = [i[0] for i in watchlist]
@@ -138,7 +141,7 @@ def search_by_picture(picture_id):
         title=title, release_year=release_year, age_rating=age_rating, genres=genres,       \
         streaming_sites=streaming_sites, RTrating=RTrating, IMDbrating=IMDbrating,          \
         user_reviews=user_reviews, cast_members=cast_members, notInWatchlist=notInWatchlist, \
-        picture_id=picture_id)
+        picture_id=picture_id, hasLoggedIn=hasLoggedIn)
 
 # Load additional information about movie
 @app.route('/addToWatchlist/<string:picture_id>', methods=['PUT'])
@@ -157,6 +160,15 @@ def addToWatchlist(picture_id):
             return make_response('successfully added to watchlist', 201)
 
     return make_response('user does not exist', 400)
+
+@app.route('/removeFromWatchlist/<string:picture_id>', methods=['DELETE'])
+def removeFromWatchlist(picture_id):
+    if 'user' in globals():
+        remove_from_watchlist(user[0], picture_id)
+
+        return make_response('delete picture from user watchlist', 200)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
