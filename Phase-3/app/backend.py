@@ -135,9 +135,28 @@ def search_by_picture(picture_id):
         
 
     return render_template('picture.html',  \
-        title=title, release_year=release_year, age_rating=age_rating, genres=genres, \
-        streaming_sites=streaming_sites, RTrating=RTrating, IMDbrating=IMDbrating,    \
-        user_reviews=user_reviews, cast_members=cast_members, notInWatchlist=notInWatchlist)
+        title=title, release_year=release_year, age_rating=age_rating, genres=genres,       \
+        streaming_sites=streaming_sites, RTrating=RTrating, IMDbrating=IMDbrating,          \
+        user_reviews=user_reviews, cast_members=cast_members, notInWatchlist=notInWatchlist, \
+        picture_id=picture_id)
+
+# Load additional information about movie
+@app.route('/addToWatchlist/<string:picture_id>', methods=['PUT'])
+def addToWatchlist(picture_id):
+    
+    # check if user is initialized
+    if 'user' in globals():
+        #check if user has picture already
+        watchlist = get_media_watchlist(user[0]);
+
+        watchlist_pictures_id = [i[0] for i in watchlist]
+
+        if not picture_id in watchlist_pictures_id:
+            #add picture to watchlist
+            add_to_watchlist(user[0], picture_id)
+            return make_response('successfully added to watchlist', 201)
+
+    return make_response('user does not exist', 400)
 
 if __name__ == '__main__':
     app.run(debug=True)

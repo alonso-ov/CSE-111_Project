@@ -19,7 +19,7 @@
 
             {% block addToWatchlistBtn %}
                 {% if notInWatchlist == True %}
-                    <input id="addButton" type="button" value="Add to Watchlist">
+                    <input id="addButton" type="button" value="Add to Watchlist" onclick="addToWatchlist( `{{ picture_id }}` )">
                 {%endif%}
             {% endblock %}
 

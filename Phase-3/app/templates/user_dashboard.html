@@ -28,7 +28,7 @@
 
                     {% block  Media_Watchlist %}
                         {% for picture in watchlist %}
-                            <tr class="picture-row">
+                            <tr class="picture-row-watchlist">
                                 <td class="picture-link" id="{{ picture[0] }}">{{ picture[1] }}</td>
                                 <td>{{ picture[2] }}</td>
                                 <td>{{ picture[3] }}</td>
@@ -64,7 +64,7 @@
                 </div>
                 <br>
 
-                <table>
+                <table id="search-results">
                     <tr>
                         <th>Name</th>
                         <th>Age Rating</th>
