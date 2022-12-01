@@ -672,13 +672,48 @@ def remove_from_watchlist(user_id, picture_id):
     conn = open_connection(r'test.sqlite3')
 
     try:
-        print('trying to add to media watchlist')
 
         sql = """
             delete from Media_Watchlist
             where mwl_userid = {}
                 and mwl_pictureid = '{}'
         """.format(user_id, picture_id)
+
+        conn.execute(sql)
+
+        conn.commit()
+
+    except Error as e:
+        print(e)
+
+        # more info about error
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+
+        conn.rollback()
+
+    close_connection(conn, r'test.sqlite3')
+
+'''
+    :param1: user id
+    :param2: picture id
+    :param3: watchstatus of picture
+    :param4: completition date of picture
+    :return: updates watchlist metadate
+'''
+def update_watchlist(user_id, picture_id, watchstatus, completitiondate):
+
+    conn = open_connection(r'test.sqlite3')
+
+    try:
+        sql = """
+            update Media_Watchlist
+            set mwl_watchstatus = "{}",
+                mwl_completitiondate = '{}'
+            where mwl_userid = {}
+                and mwl_pictureid = '{}'
+        """.format(watchstatus, completitiondate, user_id, picture_id)
         
         print(sql)
 

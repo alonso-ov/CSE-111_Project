@@ -30,11 +30,10 @@ def login():
 # Render user dashboard
 @app.route('/user_dashboard', methods=['GET', 'POST'])
 def user_dashboard():
-    print(user)
+    #print(user)
     name = user[4] + ' ' + user[5]
 
     watchlist = get_media_watchlist(user[0]);
-    print(watchlist)
 
     return render_template('user_dashboard.html', name=name, watchlist=watchlist)
 
@@ -168,7 +167,15 @@ def removeFromWatchlist(picture_id):
 
         return make_response('delete picture from user watchlist', 200)
 
+@app.route('/editWatchlist/<string:picture_id>', methods=['PUT'])
+def editWatchlist(picture_id):
+    watchstatus = request.json['watchstatus']
+    completitiondate = request.json['completitiondate']
 
+    if 'user' in globals():
+        update_watchlist(user[0], picture_id, watchstatus, completitiondate)
+
+    return make_response('Could not process request', 400)
 
 if __name__ == '__main__':
     app.run(debug=True)

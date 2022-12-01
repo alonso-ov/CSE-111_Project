@@ -221,7 +221,6 @@ a{
 }
 
 #edit-form {
-    border:5px solid #666;
     padding-top:10%;
     position: absolute;
     top:0;
@@ -231,7 +230,7 @@ a{
     background-color: rgba(255, 255, 255, 0.8);
 }
 
-form {
+#edit-form > form {
     text-align: center;
     background-color: whitesmoke;
     border-radius: 1.5rem;

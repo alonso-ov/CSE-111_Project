@@ -7,6 +7,7 @@ function change_tab(tabName) {
     $(`#${tabName}`).show()
 
     if (tabName == 'WL')
+        window.location.reload()
         reset_table()
 }
 
