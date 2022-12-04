@@ -220,7 +220,7 @@ a{
     background-color: tomato;
 }
 
-#edit-form {
+#edit-form, #add-comment-form{
     padding-top:10%;
     position: absolute;
     top:0;
