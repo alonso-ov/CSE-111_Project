@@ -239,3 +239,8 @@ a{
     margin-left: 40%;
     padding: 15px 0 15px 0;
 }
+
+#log-out {
+    margin-left: 90%;
+    border-radius: 1.5rem;
+}

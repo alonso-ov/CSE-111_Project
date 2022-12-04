@@ -10,9 +10,9 @@
     <body onload="create_picture_links()">
         
         <div class="card-holder">
-           <p>Welcome {{ name }}</p>
-
-           <div class="tabs">
+            <p>Welcome {{ name }}</p>
+            <input id="log-out" type="Button" value="Log Out" onclick="logout()">
+            <div class="tabs">
                 <input class="tablinks" type="button" value="Watchlist"         onclick="change_tab('WL')">
                 <input class="tablinks" type="button" value="Browse Movies"     onclick="change_tab('BR')">
             </div>

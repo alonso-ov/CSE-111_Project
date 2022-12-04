@@ -5,6 +5,8 @@ from queries import *
 
 app = Flask(__name__)
 
+
+
 # Render login page
 @app.route('/')
 def login_page():
@@ -125,10 +127,10 @@ def search_by_picture(picture_id):
     hasLoggedIn = False
 
     # check if user variable exists
-    if 'user' in globals():
+    if 'user' in globals() and user != None:
         hasLoggedIn = True
 
-        watchlist = get_media_watchlist(user[0]);
+        watchlist = get_media_watchlist(user[0])
 
         watchlist_pictures_id = [i[0] for i in watchlist]
 
@@ -176,6 +178,13 @@ def editWatchlist(picture_id):
         update_watchlist(user[0], picture_id, watchstatus, completitiondate)
 
     return make_response('Could not process request', 400)
+
+@app.route('/logout', methods=["Post"])
+def logout():
+    global user
+    user = None
+
+    return {"redirect": url_for('login_page')}
 
 if __name__ == '__main__':
     app.run(debug=True)

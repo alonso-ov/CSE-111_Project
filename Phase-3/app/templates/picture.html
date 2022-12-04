@@ -21,7 +21,7 @@
                 {% if hasLoggedIn == True and notInWatchlist == True %}
                     <input class="watchlistButton" id="addButton" type="button" value="Add to Watchlist" onclick="addToWatchlist( `{{ picture_id }}` )">
                 {% elif hasLoggedIn == True and  notInWatchlist == False %}
-                    <input class="watchlistButton" id="removeButton" type="button" value="Remove to Watchlist" onclick="removeFromWatchlist( `{{ picture_id }}` )">
+                    <input class="watchlistButton" id="removeButton" type="button" value="Remove from Watchlist" onclick="removeFromWatchlist( `{{ picture_id }}` )">
                 {%endif%}
             {% endblock %}
 
