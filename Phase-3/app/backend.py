@@ -20,6 +20,10 @@ def login():
         global user
         user = get_user_info(request.json['u_username'], request.json['u_password'])
 
+        #check if user is an admin
+        if isAdmin(user[0])[0][0] == 1:
+            return  {"redirect": url_for('admin_dashboard')}
+
         if(user == None):
             flash('Invalid credentials')
         else:
@@ -27,6 +31,11 @@ def login():
             return {"redirect": url_for('user_dashboard')}
 
     return {"redirect": url_for('login_page')}
+
+@app.route('/admin_dashboard', methods=["GET", "POST"])
+def admin_dashboard():
+    name = user[4] + ' ' + user[5]
+    return render_template("admin.html", name=name)
 
 
 # Render user dashboard
@@ -195,6 +204,11 @@ def addComment(picture_id):
 
         return redirect(url_for('search_by_picture', picture_id=picture_id))
 
+    return make_response()
+
+@app.route('/addMovie', methods=['POST'])
+def addMovie():
+    print(request.form)
     return make_response()
 
 if __name__ == '__main__':

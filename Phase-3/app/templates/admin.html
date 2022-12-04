@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Admin Dashboard</title>
+        <meta name="description" content="">
+        <link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
+        <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    </head>
+    <body>
+        
+        <div class="card-holder">
+            <p>Welcome {{ name }}</p>
+            <input id="log-out" type="Button" value="Log Out" onclick="logout()">
+            <div class="tabs">
+                <input class="tablinks" type="button" value="Users"         onclick="change_tab('')">
+                <input class="tablinks" type="button" value="Pictures"     onclick="change_tab('BR')">
+            </div>
+
+            <div class="tab-content" id="BR" hidden>
+                <br>
+                <div class="browse-content">
+                    <label>Search by:</label>
+
+                    <!-- Filters to search by-->
+                    <select>
+                        <option value="no_filter">No Filter</option>
+                        <option value="release_year">Release Date</option>
+                        <option value="picture_name">Picture Name</option>
+                        <option value="cast_member_name">Cast Member Name</option>
+                    </select>
+
+                    <!-- User search input -->
+                    <input id="search-value" type="search" placeholder="input filters here">
+
+                    <!-- Search button -->
+                    <input id="search-button" type="button" value="Search" onclick="search()">
+
+                    <!-- Reset table -->
+                    <input id="reset" type="reset" onclick="reset_table()">
+
+                    <!-- Add picture -->
+                    <input type="Button" value="Add movie" onclick="addPicture()">
+                </div>
+                <br>
+
+                <table id="search-results">
+                    <tr>
+                        <th>Name</th>
+                        <th>Age Rating</th>
+                        <th>Genre(s)</th>
+                        <th>Picture Type</th>
+                        <th>Release Date</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div id="add-picture-form" action="/addMovie" method="POST" hidden>
+            <form>
+                <label>Picture Id</label><br>
+                <input type="text" value="" name="p_pictureid"><br>
+
+                <label>Picture Name</label><br>
+                <input type="text" value="" name="p_name"><br>
+                
+                <label>Release Year</label><br>
+                <input type="text" value="" name="p_releasedate"><br>
+                
+                <label>Age Rating</label><br>
+                <input type="text" value="" name="p_agerating"><br>
+                
+                <label>Genre</label><br>
+                <input type="text" value="" name="p_genre"><br>
+                
+                <label>Type (Show, movie, etc)</label><br>
+                <input type="text" value="" name="p_type"><br>
+                
+                <input type="button" value="Go Back" onclick="exitForm()">
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+
+    </body>
+    <script src="{{ url_for('static',filename='picture.js') }}" async defer></script>
+    <script src="{{ url_for('static',filename='browse.js') }}" async defer></script>
+    <script src="{{ url_for('static',filename='dashboard.js') }}" async defer></script>
+    <script src="{{ url_for('static',filename='admin.js') }}" async defer></script>
+</html>

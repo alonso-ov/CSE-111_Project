@@ -770,3 +770,35 @@ def add_comment(picture_id, user_id, comment, rating):
         conn.rollback()
 
     close_connection(conn, r'test.sqlite3')
+
+
+'''
+    :param2: user id
+    :return: True if user is a registered admin
+'''
+def isAdmin(user_id):
+
+    conn = open_connection(r'test.sqlite3')
+
+    try:
+        sql = """
+            select exists (select 1 from admin where a_userid = {})
+        """.format(user_id)
+
+        cur = conn.cursor()
+
+        cur.execute(sql)
+
+        return cur.fetchall()
+
+    except Error as e:
+        print(e)
+
+        # more info about error
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+
+        conn.rollback()
+
+    close_connection(conn, r'test.sqlite3')
