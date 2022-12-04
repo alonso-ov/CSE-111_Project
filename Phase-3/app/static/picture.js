@@ -42,3 +42,11 @@ function removeFromWatchlist(picture_id){
             }
         })
 }
+
+function showCommentForm(){
+    $('#add-comment-form').fadeTo(200, 1)
+}
+
+function exitComment() {
+    $('#add-comment-form').fadeOut(200, 0)
+}

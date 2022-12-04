@@ -733,3 +733,40 @@ def update_watchlist(user_id, picture_id, watchstatus, completitiondate):
         conn.rollback()
 
     close_connection(conn, r'test.sqlite3')
+
+
+'''
+    :param1: picture id
+    :param2: user id
+    :param3: comment of picture
+    :param4: rating of picture
+    :return: inserts comment into user_review table
+'''
+def add_comment(picture_id, user_id, comment, rating):
+
+    conn = open_connection(r'test.sqlite3')
+
+    if rating == '':
+        rating = 0
+
+    try:
+        sql = """
+            insert into user_review 
+            values('{}',{},'{}', {}, date('now'))
+        """.format(picture_id, user_id, comment, rating)
+
+        conn.execute(sql)
+
+        conn.commit()
+
+    except Error as e:
+        print(e)
+
+        # more info about error
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+
+        conn.rollback()
+
+    close_connection(conn, r'test.sqlite3')

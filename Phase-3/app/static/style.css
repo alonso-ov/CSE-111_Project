@@ -230,7 +230,7 @@ a{
     background-color: rgba(255, 255, 255, 0.8);
 }
 
-#edit-form > form {
+#edit-form > form, #add-comment-form > form {
     text-align: center;
     background-color: whitesmoke;
     border-radius: 1.5rem;

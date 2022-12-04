@@ -179,12 +179,23 @@ def editWatchlist(picture_id):
 
     return make_response('Could not process request', 400)
 
-@app.route('/logout', methods=["Post"])
+@app.route('/logout', methods=["POST"])
 def logout():
     global user
     user = None
 
     return {"redirect": url_for('login_page')}
+
+@app.route('/addComment/<string:picture_id>', methods=["POST"])
+def addComment(picture_id):
+    print(picture_id)
+    
+    if 'user' in globals():
+        add_comment(picture_id, user[0], request.form['comment'], request.form['rating'])
+
+        return redirect(url_for('search_by_picture', picture_id=picture_id))
+
+    return make_response()
 
 if __name__ == '__main__':
     app.run(debug=True)

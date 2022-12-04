@@ -80,6 +80,13 @@
 
             <!-- User Reviews tab content-->
             <div class="tab-content" id="UR" hidden>
+
+                {% block addComment %}
+                    {% if hasLoggedIn == True %}
+                        <input type="Button" value="Add Comment" onclick="showCommentForm()">
+                    {% endif %}
+                {% endblock %}
+
                 <table>
                     <th> Username </th>
                     <th> Comment </th>
@@ -122,6 +129,20 @@
 
             </div>
            
+        </div>
+
+        <div id="add-comment-form" hidden>
+            <form action="/addComment/{{ picture_id }}" method="POST">
+                <label>Comment:</label><br>
+                <input type="text" id="textbox" name="comment">
+                <br>
+                <label>Rating:</label>
+                <br>
+                <input id="completitiondate" type="number" name="rating" min="0" max="10">
+                <br>
+                <input type="button" value="Go Back" onclick="exitComment()">
+                <input type="submit" value="Submit">
+            </form>
         </div>
 
     </body>
