@@ -231,6 +231,11 @@ def deletePicture(picture_id):
             delete_picture(picture_id)
 
             return make_response('delete picture from database', 200)
-    return make_reponse()
+    return make_response()
+
+@app.route("/deleteComment/<string:picture_id>/<string:user_id>", methods=["DELETE"])
+def deleteComment(picture_id, user_id):
+    delete_comment(picture_id, user_id)
+    return make_response()
 if __name__ == '__main__':
     app.run(debug=True)

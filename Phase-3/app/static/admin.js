@@ -21,3 +21,12 @@ function removePicture(picture_id){
             }
         })
 }
+
+function deleteComment(user_id, picture_id){
+    fetch(`http://127.0.0.1:5000/deleteComment/${picture_id}/${user_id}`, {
+        method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+}

@@ -90,7 +90,7 @@
             <div class="tab-content" id="UR" hidden>
 
                 {% block addComment %}
-                    {% if hasLoggedIn == True %}
+                    {% if hasLoggedIn == True and hasAdminPriv == False %}
                         <input type="Button" value="Add Comment" onclick="showCommentForm()">
                     {% endif %}
                 {% endblock %}
@@ -102,6 +102,9 @@
                     <th> Date </th>
 
                     {% block UserReview %}
+                        {% if hasAdminPriv == True%}
+                            <th>Delete Comment?</th>
+                        {% endif %}
 
                         {% for review in user_reviews %}
                         <tr>
@@ -109,6 +112,12 @@
                             <td>{{ review[1] }}</td>
                             <td>{{ review[2] }}</td>
                             <td>{{ review[3] }}</td>
+
+                            {% if hasAdminPriv == True%}
+                                <td>
+                                    <input type="button" value="-" onclick="deleteComment(`{{ review[4] }}`, `{{ review[5]}}`)">
+                                </td>
+                             {% endif %}
                         </tr>
                         {% endfor %}
 
