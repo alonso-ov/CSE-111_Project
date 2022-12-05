@@ -4,8 +4,7 @@ from flask import Flask, redirect, url_for, request, abort, render_template, fla
 from queries import *
 
 app = Flask(__name__)
-
-
+app.secret_key = "super secret key"
 
 # Render login page
 @app.route('/')
@@ -29,13 +28,53 @@ def login():
     return {"redirect": url_for('login_page')}
 
 
+
+
+
+
+#----LOOK HERE FOR CHANGES -----#
+
+
+
+# Render registration page
+@app.route('/register')
+def register_page():
+    return render_template('register.html')
+
+# Handle registration request
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    
+    if request.method == 'POST':
+        global newuser
+        newuser = register_user(request.json['u_username'], request.json['u_password'], request.json['u_email'], request.json['u_firstname'], request.json['u_lastname'], request.json['u_preferredstreamsite'])
+
+        if(newuser == None):
+            flash('Invalid credentials')
+        else:
+            print('redirecting')
+            return {"redirect": url_for('/')} #log in again
+
+    return {"redirect": url_for('register_page')}
+
+
+
+#----END OF CHANGES -----#
+
+
+
+
+
+
+
 # Render user dashboard
 @app.route('/user_dashboard', methods=['GET', 'POST'])
 def user_dashboard():
-    #print(user)
+    print(user)
     name = user[4] + ' ' + user[5]
 
-    watchlist = get_media_watchlist(user[0]);
+    watchlist = get_media_watchlist(user[0])
+    print(watchlist)
 
     return render_template('user_dashboard.html', name=name, watchlist=watchlist)
 
@@ -123,79 +162,10 @@ def search_by_picture(picture_id):
 
     cast_members = get_media_cast_members(picture_id)
 
-    notInWatchlist = False
-    hasLoggedIn = False
-
-    # check if user variable exists
-    if 'user' in globals() and user != None:
-        hasLoggedIn = True
-
-        watchlist = get_media_watchlist(user[0])
-
-        watchlist_pictures_id = [i[0] for i in watchlist]
-
-        if not picture_id in watchlist_pictures_id:
-            notInWatchlist = True
-        
-
     return render_template('picture.html',  \
-        title=title, release_year=release_year, age_rating=age_rating, genres=genres,       \
-        streaming_sites=streaming_sites, RTrating=RTrating, IMDbrating=IMDbrating,          \
-        user_reviews=user_reviews, cast_members=cast_members, notInWatchlist=notInWatchlist, \
-        picture_id=picture_id, hasLoggedIn=hasLoggedIn)
-
-# Load additional information about movie
-@app.route('/addToWatchlist/<string:picture_id>', methods=['PUT'])
-def addToWatchlist(picture_id):
-    
-    # check if user is initialized
-    if 'user' in globals():
-        #check if user has picture already
-        watchlist = get_media_watchlist(user[0]);
-
-        watchlist_pictures_id = [i[0] for i in watchlist]
-
-        if not picture_id in watchlist_pictures_id:
-            #add picture to watchlist
-            add_to_watchlist(user[0], picture_id)
-            return make_response('successfully added to watchlist', 201)
-
-    return make_response('user does not exist', 400)
-
-@app.route('/removeFromWatchlist/<string:picture_id>', methods=['DELETE'])
-def removeFromWatchlist(picture_id):
-    if 'user' in globals():
-        remove_from_watchlist(user[0], picture_id)
-
-        return make_response('delete picture from user watchlist', 200)
-
-@app.route('/editWatchlist/<string:picture_id>', methods=['PUT'])
-def editWatchlist(picture_id):
-    watchstatus = request.json['watchstatus']
-    completitiondate = request.json['completitiondate']
-
-    if 'user' in globals():
-        update_watchlist(user[0], picture_id, watchstatus, completitiondate)
-
-    return make_response('Could not process request', 400)
-
-@app.route('/logout', methods=["POST"])
-def logout():
-    global user
-    user = None
-
-    return {"redirect": url_for('login_page')}
-
-@app.route('/addComment/<string:picture_id>', methods=["POST"])
-def addComment(picture_id):
-    print(picture_id)
-    
-    if 'user' in globals():
-        add_comment(picture_id, user[0], request.form['comment'], request.form['rating'])
-
-        return redirect(url_for('search_by_picture', picture_id=picture_id))
-
-    return make_response()
+        title=title, release_year=release_year, age_rating=age_rating, genres=genres, \
+        streaming_sites=streaming_sites, RTrating=RTrating, IMDbrating=IMDbrating,    \
+        user_reviews=user_reviews, cast_members=cast_members)
 
 if __name__ == '__main__':
     app.run(debug=True)
