@@ -5,7 +5,6 @@ import os
 
 '''
     This file will handle our queries
-
     Call a function and data from query will be gathered
 '''
 
@@ -33,7 +32,6 @@ def close_connection(_conn, _dbFile):
 
 '''
     Get all user info stored in database
-
     :param1: name of user
     :param2: password of user
     :return: all user info (email, firstname, etc)
@@ -69,7 +67,6 @@ def get_user_info(username, password):
 
 '''
     Get everything from every picture
-
     :return: all available data from every picture
 '''
 def search_by_no_filter():
@@ -296,7 +293,6 @@ def get_media_cast_members(picture_id):
 
 '''
     Get everything from every picture
-
     :return: all available data from every picture
 '''
 def search_by_no_filter():
@@ -604,7 +600,6 @@ def get_media_watchlist(user_id):
             from picture, media_watchlist
             where p_pictureid = mwl_pictureid
                 and mwl_userid = {}
-            order by mwl_id desc
         """.format(user_id)
 
         cur = conn.cursor()
@@ -622,66 +617,42 @@ def get_media_watchlist(user_id):
         print(exc_type, fname, exc_tb.tb_lineno)
 
         conn.rollback()
-
-    close_connection(conn, r'test.sqlite3')
-
-'''
-    :param1: user id
-    :param2: picture id
-    :return: adds picture to watchlist table
-'''
-def add_to_watchlist(user_id, picture_id):
-
-    conn = open_connection(r'test.sqlite3')
-
-    try:
-        print('trying to add to media watchlist')
-
-        sql = """
-            insert into Media_Watchlist
-            values(null, {}, '{}', 'Recently Added', 'NA')
-        """.format(user_id, picture_id)
         
-        print(sql)
-
-
-        conn.execute(sql)
-
-        conn.commit()
-
-    except Error as e:
-        print(e)
-
-        # more info about error
-        exc_type, exc_obj, exc_tb = sys.exc_info()
-        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-        print(exc_type, fname, exc_tb.tb_lineno)
-
-        conn.rollback()
-
     close_connection(conn, r'test.sqlite3')
-
-
+    
+    
+    
+    
+    
+    
+  
+ #------LOOK HERE FOR CHANGES ------# 
+    
 '''
-    :param1: user id
-    :param2: picture id
-    :return: removes picture from watchlist
+    Getting userinput from register() and inserting it into database USER table
+    :param1: email of user
+    :param2: password of user
+    :param3: username of user
+    :param4: firstname of user
+    :param5: lastname of user
+    :param6: streamsitepref
+    :return: all user info (email, firstname, etc)
 '''
-def remove_from_watchlist(user_id, picture_id):
+def register_user(username, passcode, email, firstname, lastname, preferredstreamsite):
 
     conn = open_connection(r'test.sqlite3')
-
     try:
-
+             
         sql = """
-            delete from Media_Watchlist
-            where mwl_userid = {}
-                and mwl_pictureid = '{}'
-        """.format(user_id, picture_id)
+            INSERT INTO USER (u_userid, u_email, u_password, u_username, u_firstname, u_lastname, u_preferredstreamsite)
+            VALUES(10,  {},  {},  {},  {},  {},  {})
+        """.format(email, passcode, username, firstname, lastname, preferredstreamsite)
 
-        conn.execute(sql)
+        cur = conn.cursor()
 
-        conn.commit()
+        cur.execute(sql)
+
+        return cur.fetchone()
 
     except Error as e:
         print(e)
@@ -694,79 +665,6 @@ def remove_from_watchlist(user_id, picture_id):
         conn.rollback()
 
     close_connection(conn, r'test.sqlite3')
-
-'''
-    :param1: user id
-    :param2: picture id
-    :param3: watchstatus of picture
-    :param4: completition date of picture
-    :return: updates watchlist metadate
-'''
-def update_watchlist(user_id, picture_id, watchstatus, completitiondate):
-
-    conn = open_connection(r'test.sqlite3')
-
-    try:
-        sql = """
-            update Media_Watchlist
-            set mwl_watchstatus = "{}",
-                mwl_completitiondate = '{}'
-            where mwl_userid = {}
-                and mwl_pictureid = '{}'
-        """.format(watchstatus, completitiondate, user_id, picture_id)
-        
-        print(sql)
-
-
-        conn.execute(sql)
-
-        conn.commit()
-
-    except Error as e:
-        print(e)
-
-        # more info about error
-        exc_type, exc_obj, exc_tb = sys.exc_info()
-        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-        print(exc_type, fname, exc_tb.tb_lineno)
-
-        conn.rollback()
-
-    close_connection(conn, r'test.sqlite3')
-
-
-'''
-    :param1: picture id
-    :param2: user id
-    :param3: comment of picture
-    :param4: rating of picture
-    :return: inserts comment into user_review table
-'''
-def add_comment(picture_id, user_id, comment, rating):
-
-    conn = open_connection(r'test.sqlite3')
-
-    if rating == '':
-        rating = 0
-
-    try:
-        sql = """
-            insert into user_review 
-            values('{}',{},'{}', {}, date('now'))
-        """.format(picture_id, user_id, comment, rating)
-
-        conn.execute(sql)
-
-        conn.commit()
-
-    except Error as e:
-        print(e)
-
-        # more info about error
-        exc_type, exc_obj, exc_tb = sys.exc_info()
-        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-        print(exc_type, fname, exc_tb.tb_lineno)
-
-        conn.rollback()
-
-    close_connection(conn, r'test.sqlite3')
+    
+    
+     #------END OF CHANGES ------# 
