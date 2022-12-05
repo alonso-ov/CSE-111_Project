@@ -31,14 +31,10 @@ def login():
 
 
 
-
-#----LOOK HERE FOR CHANGES -----#
-
-
-
 # Render registration page
-@app.route('/register_page')
+@app.route('/register')
 def register_page():
+    #print("nice2")
     return render_template('register.html')
 
 # Handle registration request
@@ -47,19 +43,19 @@ def register():
     
     if request.method == 'POST':
         global newuser
-        newuser = register_user(request.form['username'], request.form['password'], request.form['email'], request.form['firstname'], request.form['lastname'], request.form['preferredstreamsite'])
+        #print("finish")    
+        #flash(request.json['u_username'])
+        newuser = register_user(request.json['u_username'], request.json['u_password'], request.json['u_email'], request.json['u_firstname'], request.json['u_lastname'], request.json['u_preferredstreamsite'])
 
+        
         if(newuser == None):
             flash('Invalid credentials')
         else:
-            print('redirecting')
-            return redirect(url_for('login_page')) #log in again
+            #print('redirecting')
+            #return {"redirect": url_for('')} #log in again
+            return {"redirect": url_for('login_page')}
 
-    return redirect(url_for('register_page')) 
-
-
-
-#----END OF CHANGES -----#
+    return {"redirect": url_for('register_page')}
 
 
 
