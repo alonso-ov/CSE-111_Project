@@ -152,6 +152,7 @@ def search_by_picture(picture_id):
 
         if isAdmin(user[0])[0][0] == 1:
             hasAdminPriv = True
+            print(hasAdminPriv)
         
 
     return render_template('picture.html',  \
@@ -193,7 +194,7 @@ def editWatchlist(picture_id):
     if 'user' in globals():
         update_watchlist(user[0], picture_id, watchstatus, completitiondate)
 
-    return make_response('Could not process request', 400)
+    return make_response('Updated user watchlist', 200)
 
 @app.route('/logout', methods=["POST"])
 def logout():
@@ -213,17 +214,20 @@ def addComment(picture_id):
 
     return make_response()
 
-@app.route('/addMovie', methods=['POST'])
+@app.route('/addMovie/', methods=['POST'])
 def addMovie():
+    if request.method == "POST":
 
-    p_pictureid = request.form['p_pictureid']
-    p_name = request.form['p_name']
-    p_releasedate = request.form['p_releasedate']
-    p_agerating = request.form['p_agerating']
-    p_genre = request.form['p_genre']
-    p_type = request.form['p_type']
+        p_pictureid = request.form['pictureid']
+        p_name = request.form['name']
+        p_releasedate = request.form['releasedate']
+        p_agerating = request.form['agerating']
+        p_genre = request.form['genre']
+        p_type = request.form['type']
 
-    add_picture(p_pictureid, p_name, p_releasedate, p_agerating, p_genre, p_type)
+        add_picture(p_pictureid, p_name, p_releasedate, p_agerating, p_genre, p_type)
+
+        return redirect(url_for('admin_dashboard'))
 
     return make_response()
 

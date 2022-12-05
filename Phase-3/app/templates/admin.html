@@ -82,25 +82,25 @@
             </div>
         </div>
 
-        <div id="add-picture-form" action="/addMovie" method="POST" hidden>
-            <form>
+        <div id="add-picture-form" hidden>
+            <form action="/addMovie" method="POST">
                 <label>Picture Id</label><br>
-                <input type="text" value="" name="p_pictureid"><br>
+                <input type="text" placeholder="123" name="pictureid"><br>
 
                 <label>Picture Name</label><br>
-                <input type="text" value="" name="p_name"><br>
+                <input type="text" placeholder="Title" name="name"><br>
                 
                 <label>Release Year</label><br>
-                <input type="text" value="" name="p_releasedate"><br>
+                <input type="text" placeholder="2022" name="releasedate"><br>
                 
                 <label>Age Rating</label><br>
-                <input type="text" value="" name="p_agerating"><br>
+                <input type="text" placeholder="PG-13" name="agerating"><br>
                 
                 <label>Genre</label><br>
-                <input type="text" value="" name="p_genre"><br>
+                <input type="text" placeholder="Drama" name="genre"><br>
                 
                 <label>Type (Show, movie, etc)</label><br>
-                <input type="text" value="" name="p_type"><br>
+                <input type="text" placeholder="Movie" name="type"><br>
                 
                 <input type="button" value="Go Back" onclick="exitForm()">
                 <input type="submit" value="Submit">
