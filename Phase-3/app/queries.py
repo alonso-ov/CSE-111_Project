@@ -105,7 +105,7 @@ def search_by_streaming_site(streaming_sites):
             from Picture
             where u_username = '{}'
             and u_password = '{}'
-        """.format(streaming_site)
+        """.format(streaming_sites) #
 
         pass
 
@@ -331,7 +331,7 @@ def search_by_streaming_site(streaming_sites):
             from Picture
             where u_username = '{}'
             and u_password = '{}'
-        """.format(streaming_site)
+        """.format(streaming_sites) #
 
         pass
 
@@ -619,15 +619,15 @@ def get_media_watchlist(user_id):
         conn.rollback()
         
     close_connection(conn, r'test.sqlite3')
-    
-    
-    
-    
-    
-    
   
- #------LOOK HERE FOR CHANGES ------# 
+ 
     
+    
+    
+    
+    
+#------------- my changes ------------------
+
 '''
     Getting userinput from register() and inserting it into database USER table
     :param1: email of user
@@ -639,20 +639,25 @@ def get_media_watchlist(user_id):
     :return: all user info (email, firstname, etc)
 '''
 def register_user(username, passcode, email, firstname, lastname, preferredstreamsite):
+    
+    print(username)
 
     conn = open_connection(r'test.sqlite3')
     try:
-
-        sql = """
-            INSERT INTO USER (u_email, u_password, u_username, u_firstname, u_lastname, u_preferredstreamsite)
-            VALUES('{}',  '{}',  '{}',  '{}',  '{}',  '{}')
-        """.format(email, passcode, username, firstname, lastname, preferredstreamsite)
-
+        #print("entered insert portion!")      
+        
+        #sql = """
+            #INSERT INTO USER (u_userid, u_email, u_password, u_username, u_firstname, u_lastname, u_preferredstreamsite)
+            #VALUES (10,  {},  {},  {},  {},  {},  {})
+        #""".format(email, passcode, username, firstname, lastname, preferredstreamsite)
+        
         cur = conn.cursor()
+        
+        cur.execute("INSERT INTO User (u_userid, u_email, u_password, u_username, u_firstname, u_lastname, u_preferredstreamsite) VALUES (10,?,?,?,?,?,?)",(email, passcode, username, firstname, lastname, preferredstreamsite) )
+        conn.commit()
+        #cur.execute(sql)
 
-        cur.execute(sql)
-
-        return cur.fetchone()
+        return True
 
     except Error as e:
         print(e)
@@ -665,6 +670,3 @@ def register_user(username, passcode, email, firstname, lastname, preferredstrea
         conn.rollback()
 
     close_connection(conn, r'test.sqlite3')
-    
-    
-     #------END OF CHANGES ------# 
