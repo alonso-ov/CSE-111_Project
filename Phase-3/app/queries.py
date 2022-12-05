@@ -872,3 +872,67 @@ def delete_comment(picture_id, user_id):
         conn.rollback()
 
     close_connection(conn, r'test.sqlite3')
+
+
+'''
+    :return: every user info
+'''
+def get_all_users():
+
+    conn = open_connection(r'test.sqlite3')
+
+    try:
+        sql = """
+            select u_username, u_email, u_firstname, u_lastname
+            from user
+        """
+
+        cur = conn.cursor()
+
+        cur.execute(sql)
+
+        return cur.fetchall()
+
+    except Error as e:
+        print(e)
+
+        # more info about error
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+
+        conn.rollback()
+
+    close_connection(conn, r'test.sqlite3')
+
+'''
+    :param1: username
+    :param2: user email
+    :return: deletes user comment
+'''
+def delete_user(username, email):
+
+    conn = open_connection(r'test.sqlite3')
+
+    try:
+        sql = """
+            delete from user
+            where u_username = '{}'
+                and u_email = '{}'
+        """.format(username, email)
+
+        conn.execute(sql)
+
+        conn.commit()
+
+    except Error as e:
+        print(e)
+
+        # more info about error
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+
+        conn.rollback()
+
+    close_connection(conn, r'test.sqlite3')

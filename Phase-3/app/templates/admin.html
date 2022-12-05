@@ -13,8 +13,34 @@
             <p>Welcome {{ name }}</p>
             <input id="log-out" type="Button" value="Log Out" onclick="logout()">
             <div class="tabs">
-                <input class="tablinks" type="button" value="Users"         onclick="change_tab('')">
+                <input class="tablinks" type="button" value="Users"         onclick="change_tab('US')">
                 <input class="tablinks" type="button" value="Pictures"     onclick="change_tab('BR')">
+            </div>
+
+            <div class="tab-content" id="US">
+                <table>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Delete User?</th>
+                    </tr>
+
+                    {%block everyUser %}
+                        {% for user in allUsers %}
+                        <tr>
+                            <td>{{ user[0] }}</td>
+                            <td>{{ user[1] }}</td>
+                            <td>{{ user[2] }}</td>
+                            <td>{{ user[3] }}</td>
+                            <td>
+                                <input type="button"  value="-" onclick="deleteUser(`{{user[0]}}`, `{{user[1]}}`)">
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% endblock %}
+                </table>
             </div>
 
             <div class="tab-content" id="BR" hidden>

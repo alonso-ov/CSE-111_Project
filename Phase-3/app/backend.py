@@ -36,7 +36,10 @@ def login():
 @app.route('/admin_dashboard', methods=["GET", "POST"])
 def admin_dashboard():
     name = user[4] + ' ' + user[5]
-    return render_template("admin.html", name=name)
+
+    allUsers = get_all_users()
+
+    return render_template("admin.html", name=name,allUsers=allUsers)
 
 
 # Render user dashboard
@@ -237,5 +240,11 @@ def deletePicture(picture_id):
 def deleteComment(picture_id, user_id):
     delete_comment(picture_id, user_id)
     return make_response()
+
+@app.route("/deleteUser/<string:user_id>/<string:user_email>", methods=["DELETE"])
+def deleteUser(user_id, user_email):
+    delete_user(user_id, user_email)
+    return make_response()
+
 if __name__ == '__main__':
     app.run(debug=True)
