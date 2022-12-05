@@ -42,7 +42,7 @@ def register():
     
     if request.method == 'POST':
         global newuser
-        newuser = register_user(request.json['u_username'], request.json['u_password'], request.json['u_firstname'], request.json['u_lastname'], request.json['u_preferredstreamsite'])
+        newuser = register_user(request.json['u_username'], request.json['u_password'], request.json['u_email'], request.json['u_firstname'], request.json['u_lastname'], request.json['u_preferredstreamsite'])
 
         if(newuser == None):
             flash('Invalid credentials')
