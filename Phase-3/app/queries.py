@@ -234,7 +234,7 @@ def get_user_reviews(picture_id):
 
     try:
         sql = """
-            select u_username, ur_comment, ur_userrating, ur_date
+            select u_username, ur_comment, ur_userrating, ur_date, u_userid, ur_pictureid
             from User_Review, User
             where ur_pictureid == '{}'
                 and ur_userid = u_userid
@@ -451,39 +451,6 @@ def get_public_ratings(picture_id):
 
     close_connection(conn, r'test.sqlite3')
 
-'''
-    :param1: picture identifier
-    :return: all user reviews
-'''
-def get_user_reviews(picture_id):
-
-    conn = open_connection(r'test.sqlite3')
-
-    try:
-        sql = """
-            select u_username, ur_comment, ur_userrating, ur_date
-            from User_Review, User
-            where ur_pictureid == '{}'
-                and ur_userid = u_userid
-        """.format(picture_id)
-
-        cur = conn.cursor()
-
-        cur.execute(sql)
-
-        return cur.fetchall()
-
-    except Error as e:
-        print(e)
-
-        # more info about error
-        exc_type, exc_obj, exc_tb = sys.exc_info()
-        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-        print(exc_type, fname, exc_tb.tb_lineno)
-
-        conn.rollback()
-
-    close_connection(conn, r'test.sqlite3')
 
 '''
     :param1: user input
@@ -754,6 +721,205 @@ def add_comment(picture_id, user_id, comment, rating):
             insert into user_review 
             values('{}',{},'{}', {}, date('now'))
         """.format(picture_id, user_id, comment, rating)
+
+        conn.execute(sql)
+
+        conn.commit()
+
+    except Error as e:
+        print(e)
+
+        # more info about error
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+
+        conn.rollback()
+
+    close_connection(conn, r'test.sqlite3')
+
+
+'''
+    :param2: user id
+    :return: True if user is a registered admin
+'''
+def isAdmin(user_id):
+
+    conn = open_connection(r'test.sqlite3')
+
+    try:
+        sql = """
+            select exists (select 1 from admin where a_userid = {})
+        """.format(user_id)
+
+        cur = conn.cursor()
+
+        cur.execute(sql)
+
+        return cur.fetchall()
+
+    except Error as e:
+        print(e)
+
+        # more info about error
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+
+        conn.rollback()
+
+    close_connection(conn, r'test.sqlite3')
+
+
+'''
+    :param1: picture id
+    :param2: picture name
+    :param3: release date
+    :param4: age rating
+    :param5: genre
+    :param6: type
+    :return: creates an instance of a new picture
+'''
+def add_picture(p_pictureid, p_name, p_releasedate, p_agerating, p_genre, p_type):
+
+    conn = open_connection(r'test.sqlite3')
+
+    print("inserting new movie")
+
+    try:
+        sql = """
+            insert into picture values('{}','{}', '{}', '{}', '{}', '{}')
+        """.format(p_pictureid, p_name, p_releasedate, p_agerating, p_genre, p_type)
+
+        conn.execute(sql)
+
+        conn.commit()
+
+    except Error as e:
+        print(e)
+
+        # more info about error
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+
+        conn.rollback()
+
+    close_connection(conn, r'test.sqlite3')
+
+
+'''
+    :param1: picture id
+    :return: creates an instance of a new picture
+'''
+def delete_picture(p_pictureid):
+
+    conn = open_connection(r'test.sqlite3')
+
+    print("deleting picture")
+
+    try:
+        sql = """
+            delete from picture
+            where p_pictureid = '{}'
+        """.format(p_pictureid)
+
+        conn.execute(sql)
+
+        conn.commit()
+
+    except Error as e:
+        print(e)
+
+        # more info about error
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+
+        conn.rollback()
+
+    close_connection(conn, r'test.sqlite3')
+
+
+'''
+    :param1: picture id
+    :param2: user id
+    :return: deletes user comment
+'''
+def delete_comment(picture_id, user_id):
+
+    conn = open_connection(r'test.sqlite3')
+
+    try:
+        sql = """
+            delete from user_review
+            where ur_pictureid = '{}'
+                and ur_userid = '{}'
+        """.format(picture_id, user_id)
+
+        conn.execute(sql)
+
+        conn.commit()
+
+    except Error as e:
+        print(e)
+
+        # more info about error
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+
+        conn.rollback()
+
+    close_connection(conn, r'test.sqlite3')
+
+
+'''
+    :return: every user info
+'''
+def get_all_users():
+
+    conn = open_connection(r'test.sqlite3')
+
+    try:
+        sql = """
+            select u_username, u_email, u_firstname, u_lastname
+            from user
+        """
+
+        cur = conn.cursor()
+
+        cur.execute(sql)
+
+        return cur.fetchall()
+
+    except Error as e:
+        print(e)
+
+        # more info about error
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+
+        conn.rollback()
+
+    close_connection(conn, r'test.sqlite3')
+
+'''
+    :param1: username
+    :param2: user email
+    :return: deletes user comment
+'''
+def delete_user(username, email):
+
+    conn = open_connection(r'test.sqlite3')
+
+    try:
+        sql = """
+            delete from user
+            where u_username = '{}'
+                and u_email = '{}'
+        """.format(username, email)
 
         conn.execute(sql)
 

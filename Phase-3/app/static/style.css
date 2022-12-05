@@ -220,7 +220,7 @@ a{
     background-color: tomato;
 }
 
-#edit-form, #add-comment-form{
+#edit-form, #add-comment-form, #add-picture-form{
     padding-top:10%;
     position: absolute;
     top:0;
@@ -230,7 +230,7 @@ a{
     background-color: rgba(255, 255, 255, 0.8);
 }
 
-#edit-form > form, #add-comment-form > form {
+#edit-form > form, #add-comment-form > form , #add-picture-form > form{
     text-align: center;
     background-color: whitesmoke;
     border-radius: 1.5rem;

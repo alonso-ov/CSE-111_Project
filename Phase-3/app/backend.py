@@ -19,14 +19,27 @@ def login():
     if request.method == 'POST':
         global user
         user = get_user_info(request.json['u_username'], request.json['u_password'])
+        
+        if user != None:
+            #check if user is an admin
+            if isAdmin(user[0])[0][0] == 1:
+                return  {"redirect": url_for('admin_dashboard')}
 
-        if(user == None):
-            flash('Invalid credentials')
-        else:
-            print('redirecting')
-            return {"redirect": url_for('user_dashboard')}
+            if(user == None):
+                flash('Invalid credentials')
+            else:
+                print('redirecting')
+                return {"redirect": url_for('user_dashboard')}
 
     return {"redirect": url_for('login_page')}
+
+@app.route('/admin_dashboard', methods=["GET", "POST"])
+def admin_dashboard():
+    name = user[4] + ' ' + user[5]
+
+    allUsers = get_all_users()
+
+    return render_template("admin.html", name=name,allUsers=allUsers)
 
 
 # Render user dashboard
@@ -74,10 +87,8 @@ def search_by(method):
         return response
 
     elif method == 'picture_name':
-        query = []
 
-        for item in user_input:
-            query += search_by_picture_name(item)
+        query = search_by_picture_name(user_input[0])
              
         data = jsonify({'pictures': query})
         response = make_response(data, 200)
@@ -115,9 +126,10 @@ def search_by_picture(picture_id):
     RTrating = ''
     IMDbrating = ''
 
-    if len(ratings)  == 2:
-        RTrating = ratings[0]
-        IMDbrating = ratings[1]
+    if ratings != None:
+        if len(ratings)  == 2:
+            RTrating = ratings[0]
+            IMDbrating = ratings[1]
 
     user_reviews = get_user_reviews(picture_id)
 
@@ -125,6 +137,7 @@ def search_by_picture(picture_id):
 
     notInWatchlist = False
     hasLoggedIn = False
+    hasAdminPriv = False
 
     # check if user variable exists
     if 'user' in globals() and user != None:
@@ -136,13 +149,16 @@ def search_by_picture(picture_id):
 
         if not picture_id in watchlist_pictures_id:
             notInWatchlist = True
+
+        if isAdmin(user[0])[0][0] == 1:
+            hasAdminPriv = True
         
 
     return render_template('picture.html',  \
         title=title, release_year=release_year, age_rating=age_rating, genres=genres,       \
         streaming_sites=streaming_sites, RTrating=RTrating, IMDbrating=IMDbrating,          \
         user_reviews=user_reviews, cast_members=cast_members, notInWatchlist=notInWatchlist, \
-        picture_id=picture_id, hasLoggedIn=hasLoggedIn)
+        picture_id=picture_id, hasLoggedIn=hasLoggedIn, hasAdminPriv=hasAdminPriv)
 
 # Load additional information about movie
 @app.route('/addToWatchlist/<string:picture_id>', methods=['PUT'])
@@ -195,6 +211,39 @@ def addComment(picture_id):
 
         return redirect(url_for('search_by_picture', picture_id=picture_id))
 
+    return make_response()
+
+@app.route('/addMovie', methods=['POST'])
+def addMovie():
+
+    p_pictureid = request.form['p_pictureid']
+    p_name = request.form['p_name']
+    p_releasedate = request.form['p_releasedate']
+    p_agerating = request.form['p_agerating']
+    p_genre = request.form['p_genre']
+    p_type = request.form['p_type']
+
+    add_picture(p_pictureid, p_name, p_releasedate, p_agerating, p_genre, p_type)
+
+    return make_response()
+
+@app.route("/deletePicture/<string:picture_id>", methods=["DELETE"])
+def deletePicture(picture_id):
+    if 'user' in globals():
+        if isAdmin(user[0])[0][0] == 1:
+            delete_picture(picture_id)
+
+            return make_response('delete picture from database', 200)
+    return make_response()
+
+@app.route("/deleteComment/<string:picture_id>/<string:user_id>", methods=["DELETE"])
+def deleteComment(picture_id, user_id):
+    delete_comment(picture_id, user_id)
+    return make_response()
+
+@app.route("/deleteUser/<string:user_id>/<string:user_email>", methods=["DELETE"])
+def deleteUser(user_id, user_email):
+    delete_user(user_id, user_email)
     return make_response()
 
 if __name__ == '__main__':

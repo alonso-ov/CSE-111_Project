@@ -1,2 +1,1 @@
-insert into user_review 
-values('tm154986',1,'lol', 2.2, date('now'))
+select exists (select 1 from admin where a_userid = 2)
