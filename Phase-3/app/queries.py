@@ -936,3 +936,39 @@ def delete_user(username, email):
         conn.rollback()
 
     close_connection(conn, r'test.sqlite3')
+
+'''
+    Getting userinput from register() and inserting it into database USER table
+    :param1: email of user
+    :param2: password of user
+    :param3: username of user
+    :param4: firstname of user
+    :param5: lastname of user
+    :param6: streamsitepref
+    :return: all user info (email, firstname, etc)
+'''
+def register_user(username, passcode, email, firstname, lastname, preferredstreamsite):
+
+    conn = open_connection(r'test.sqlite3')
+    try:
+
+        sql = """
+            INSERT INTO USER (u_email, u_password, u_username, u_firstname, u_lastname, u_preferredstreamsite)
+            VALUES('{}',  '{}',  '{}',  '{}',  '{}',  '{}')
+        """.format(email, passcode, username, firstname, lastname, preferredstreamsite)
+        
+        conn.execute(sql)
+
+        conn.commit()
+
+    except Error as e:
+        print(e)
+
+        # more info about error
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+
+        conn.rollback()
+
+    close_connection(conn, r'test.sqlite3')

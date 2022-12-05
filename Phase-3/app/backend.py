@@ -5,6 +5,7 @@ from queries import *
 
 app = Flask(__name__)
 
+app.config['SECRET_KEY'] = 'super secret key'
 
 
 # Render login page
@@ -249,6 +250,22 @@ def deleteComment(picture_id, user_id):
 def deleteUser(user_id, user_email):
     delete_user(user_id, user_email)
     return make_response()
+
+# Render registration page
+@app.route('/register_page')
+def register_page():
+    return render_template('register.html')
+
+# Handle registration request
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    
+    if request.method == 'POST':
+        register_user(request.form['username'], request.form['password'], request.form['email'], request.form['firstname'], request.form['lastname'], request.form['preferredstreamsite'])
+
+        return redirect(url_for('login_page')) #log in again
+
+    return redirect(url_for('register_page')) 
 
 if __name__ == '__main__':
     app.run(debug=True)
