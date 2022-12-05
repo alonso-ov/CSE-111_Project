@@ -18,11 +18,17 @@
             <h3>{{ title }}</h3>
 
             {% block addToWatchlistBtn %}
-                {% if hasLoggedIn == True and notInWatchlist == True %}
+                {% if hasLoggedIn == True and notInWatchlist == True  and hasAdminPriv == False%}
                     <input class="watchlistButton" id="addButton" type="button" value="Add to Watchlist" onclick="addToWatchlist( `{{ picture_id }}` )">
                 {% elif hasLoggedIn == True and  notInWatchlist == False %}
                     <input class="watchlistButton" id="removeButton" type="button" value="Remove from Watchlist" onclick="removeFromWatchlist( `{{ picture_id }}` )">
                 {%endif%}
+            {% endblock %}
+
+            {% block deleteMovieBtn %}
+                {% if hasAdminPriv == True %}
+                <input class="watchlistButton" id="removePicture" type="button" value="Delete this title" onclick="removePicture( `{{ picture_id }}` )">
+                {% endif %}
             {% endblock %}
 
             <div class="tabs">
@@ -43,15 +49,17 @@
                     <th>Disney+</th>
 
                     {% block StreamingAvailability %}
-                        <tr>
-                            {% for site in streaming_sites %}
-                                {% if site == 1 %}
-                                    <td>&#x2705;</td>
-                                {% else %}
-                                    <td>&#x274E;</td>
-                                {% endif %}
-                            {% endfor %}
-                        </tr>
+                        {% if streaming_sites != None %}
+                            <tr>
+                                {% for site in streaming_sites %}
+                                    {% if site == 1 %}
+                                        <td>&#x2705;</td>
+                                    {% else %}
+                                        <td>&#x274E;</td>
+                                    {% endif %}
+                                {% endfor %}
+                            </tr>
+                        {% endif%}
                     {% endblock %}
                 </table>
             </div>
@@ -148,4 +156,5 @@
     </body>
 
     <script src="{{ url_for('static',filename='picture.js') }}" async defer></script>
+    <script src="{{ url_for('static',filename='admin.js') }}" async defer></script>
 </html>
