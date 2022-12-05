@@ -632,15 +632,15 @@ def get_media_watchlist(user_id):
     :param6: streamsitepref
     :return: all user info (email, firstname, etc)
 '''
-def register_user(username, passcode, firstname, lastname, preferredstreamsite):
+def register_user(username, passcode, email, firstname, lastname, preferredstreamsite):
 
     conn = open_connection(r'test.sqlite3')
     try:
              
         sql = """
             INSERT INTO USER (u_userid, u_email, u_password, u_username, u_firstname, u_lastname, u_preferredstreamsite)
-            VALUES(10,  34,  {},  {},  {},  {},  {})
-        """.format(passcode, username, firstname, lastname, preferredstreamsite)
+            VALUES(10,  {},  {},  {},  {},  {},  {})
+        """.format(email, passcode, username, firstname, lastname, preferredstreamsite)
 
         cur = conn.cursor()
 
