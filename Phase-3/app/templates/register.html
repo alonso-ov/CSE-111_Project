@@ -10,51 +10,51 @@
         
         <div class="card-holder">
             <div class="card">
-                <form>
+                <form action="/register" method="POST">
                     <h3>Register as a user</h3>
 
                     <!-- Firstname input -->
                     <label for="firstname"><b>First name</b></label>
                     <br>
-                    <input id="firstname" type="text" placeholder="Enter First Name" required>
+                    <input name="firstname" type="text" placeholder="Enter First Name" required>
                     <br>
                     <br>
 
                     <!-- Lastname input -->
                     <label for="lastname"><b>Last name</b></label>
                     <br>
-                    <input id="lastname" type="text" placeholder="Enter Last Name" required>
+                    <input name="lastname" type="text" placeholder="Enter Last Name" required>
                     <br>
                     <br>
 
                     <!-- Email input -->
                     <label for="email"><b>Email</b></label>
                     <br>
-                    <input id="email" type="text" placeholder="Enter Email" required>
+                    <input name="email" type="text" placeholder="Enter Email" required>
                     <br>
                     <br>
 
                     <!-- Username input -->
                     <label for="username"><b>Username</b></label>
                     <br>
-                    <input id="username" type="text" placeholder="Enter Username" required>
+                    <input name="username" type="text" placeholder="Enter Username" required>
                     <br>
                     <br>
 
                     <!-- Password input-->
                     <label for="password"><b>Password</b></label>
                     <br>
-                    <input id="password" type="password" placeholder="Enter Password" required>
+                    <input name="password" type="password" placeholder="Enter Password" required>
                     <br>
                     <br>
 
                     <!-- Preferred Stream Site input-->
                     <label for="preferredstreamsite"><b>Preferred Stream Site </b></label>
                     <br>
-                    <input id="preferredstreamsite" type="text" placeholder="Enter Preferred Stream Site" required>
+                    <input name="preferredstreamsite" type="text" placeholder="Enter Preferred Stream Site" required>
                     <br>
                     <br>
-                    <input type="button" onclick="register()" value="Register">
+                    <input type="submit" value="Register">
 
                 </form>
             </div>

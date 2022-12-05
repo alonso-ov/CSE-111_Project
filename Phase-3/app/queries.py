@@ -642,10 +642,10 @@ def register_user(username, passcode, email, firstname, lastname, preferredstrea
 
     conn = open_connection(r'test.sqlite3')
     try:
-             
+
         sql = """
-            INSERT INTO USER (u_userid, u_email, u_password, u_username, u_firstname, u_lastname, u_preferredstreamsite)
-            VALUES(10,  {},  {},  {},  {},  {},  {})
+            INSERT INTO USER (u_email, u_password, u_username, u_firstname, u_lastname, u_preferredstreamsite)
+            VALUES('{}',  '{}',  '{}',  '{}',  '{}',  '{}')
         """.format(email, passcode, username, firstname, lastname, preferredstreamsite)
 
         cur = conn.cursor()
