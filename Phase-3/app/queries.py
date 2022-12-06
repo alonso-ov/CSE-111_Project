@@ -650,10 +650,20 @@ def register_user(username, passcode, email, firstname, lastname, preferredstrea
             #INSERT INTO USER (u_userid, u_email, u_password, u_username, u_firstname, u_lastname, u_preferredstreamsite)
             #VALUES (10,  {},  {},  {},  {},  {},  {})
         #""".format(email, passcode, username, firstname, lastname, preferredstreamsite)
-        
+      
         cur = conn.cursor()
         
-        cur.execute("INSERT INTO User (u_userid, u_email, u_password, u_username, u_firstname, u_lastname, u_preferredstreamsite) VALUES (10,?,?,?,?,?,?)",(email, passcode, username, firstname, lastname, preferredstreamsite) )
+        sql = "SELECT COUNT(*) as Max FROM User"
+        myvar = cur.execute(sql)
+        result = myvar.fetchall()
+        #print([f[0] for f in result]) ---> [13]
+        myint = [int(f[0]) for f in result]
+        myint2 = myint[0]
+        #print(type(myint)) ---> <class 'list'>
+        #print(type(myint2)) --> <class 'int'>
+        myint2 = myint2+1
+        
+        cur.execute("INSERT INTO User (u_userid, u_email, u_password, u_username, u_firstname, u_lastname, u_preferredstreamsite) VALUES (?,?,?,?,?,?,?)",(myint2,email, passcode, username, firstname, lastname, preferredstreamsite) )
         conn.commit()
         #cur.execute(sql)
 
